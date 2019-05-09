@@ -1,2 +1,2 @@
 # 1search-ui-package
-Primo UI Package for 1Search
+Primo new UI Package (HTML and CSS files) for 1Search.
