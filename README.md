@@ -25,16 +25,16 @@
 
 4.  Make changes (e.g., custom1.js or custom1.css)
 
-5.  Test changes (remember: local devenv is pointing to Sandbox)
+5.  Test changes (remember: local devenv is pointing to Sandbox):
       - go to 1search-ui-package
          - gulp run --view OSU
       - visit : http://localhost:8003/primo-explore/search?vid=OSU
 
-6.  If test passes
-   - git commit
-   - git push to 1search-ui-package
-   - zip OSU package and save the zip file to a separate directory
+6.  If test passes:
+      - git commit
+      - git push to 1search-ui-package
+      - zip OSU package and save the zip file to a separate directory
 
-7.  Deploy
-   - upload zip file to 1Search PBO
-   - deploy views
+7.  Deploy to 1Search:
+      - upload zip file to 1Search PBO
+      - deploy views
