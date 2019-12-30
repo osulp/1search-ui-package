@@ -47,6 +47,7 @@ Primo is using a theme inside angular-material to define a palette of colors see
 https://material.angularjs.org/latest/Theming/01_introduction
 
 This means that you will often encounter a class "md-primoExplore-theme" attached to elements.
+
 ##Recipes/Examples:
 
 css Recipe 1 - Color Scheme (Starting from August 2016 Release)
@@ -100,6 +101,7 @@ Color Changes image
 Color Changes image
 
 css Recipe 2 - Moving the Facets to the Left
+
 Select the parent container containing the search result and the facets
 Copy the selector definition using your browsers' dev tools
 Define the container as
