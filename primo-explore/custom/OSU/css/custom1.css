@@ -141,6 +141,9 @@ prm-change-lang {
 display: none;
 }
 
+/* remove the Summit Institution section - go live March 2020*/
+prm-alma-more-inst{display:none!important;}
+
 /* Hide globe icon in Additional Main Menu options overlay */
 md-icon[aria-label="icon-earth"] {
 display: none;
@@ -242,6 +245,21 @@ span[data-field-selector="creationdate"]::before { content: "Publication date: "
     .md-subheader { display:none; }
     prm-alert-bar { display: none; }
     #mainResults > div.results-title.layout-align-start-center.layout-row { display: none; }
+}
+
+#covid-19 {
+  margin: 16px;
+  padding: 8px;
+  font-size: 1.5em;
+  font-weight: bold;
+  border: 1px solid grey;
+  background: #fffcc4;
+  color: black;
+  text-align: center;
+}
+
+#covid-19 h2 {
+  font-weight: bold;
 }
 
 /* End Primo media queries */

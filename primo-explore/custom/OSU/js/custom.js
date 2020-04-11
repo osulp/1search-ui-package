@@ -96,6 +96,13 @@ app.controller('SearchBarAfterController', ['angularLoad', function (angularLoad
     }, i[r].l = 1 * new Date();a = s.createElement(o), m = s.getElementsByTagName(o)[0];a.async = 1;a.src = g;m.parentNode.insertBefore(a, m);
 })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
 
+//Add Emergency Banner
+app.component('prmBackToLibrarySearchButtonAfter', {
+  template: '\n    <div id="covid-19">\n      Due to the impacts of COVID-19, Summit requesting for physical materials is no longer available but you can still sign in and request books via Interlibrary Loan. Please visit <a href="https://library.oregonstate.edu/reference">Ask a Librarian</a> for help.\n    </div>\n  ',
+  scope: {},
+  bindings: { parentCtrl: '<' }
+});
+
 ga('create', 'UA-35760875-20');
 ga('send', 'pageview');
 ga('set', 'anonymizeIp', true);
