@@ -246,7 +246,9 @@ span[data-field-selector="creationdate"]::before { content: "Publication date: "
     prm-alert-bar { display: none; }
     #mainResults > div.results-title.layout-align-start-center.layout-row { display: none; }
 }
+/* End Primo media queries */
 
+/* Start COVID19 Banner */
 #covid-19 {
   margin: 16px;
   padding: 8px;
@@ -261,5 +263,72 @@ span[data-field-selector="creationdate"]::before { content: "Publication date: "
 #covid-19 h2 {
   font-weight: bold;
 }
+/* End COVID19 Banner */
 
-/* End Primo media queries */
+/* Start Customization to "Sign In" screen accessed from within Primo - borrowed from U Portland, added 8-25-2020 */
+/* Opacity control for the sign in area */
+.backdrop-dark md-backdrop.md-opaque, .background-dark md-backdrop.md-opaque {
+    opacity: 0.97;
+}
+
+/* Cancel Button */
+.light-on-dark-dialog .md-button {
+    color: #000;
+}
+
+/* white backgorund and black text Dialog Box Background */
+md-dialog.light-on-dark-dialog {
+    background-color: #fff;
+    color: #000;
+    border: 7px solid #5e6a71;
+    border-radius: 30px;
+}
+
+md-dialog. md-headline light-text .h2 {
+color: #000;
+}
+
+/* login selections */
+md-dialog.light-on-dark-dialog .md-list[class$=-line] md-list-item .md-list-item-text .list-item-title, md-dialog.light-on-dark-dialog .md-list[class$=-line] md-list-item .md-list-item-text h3, md-dialog.light-on-dark-dialog .md-list[class$=-line] md-list-item>.md-no-style .md-list-item-text .list-item-title, md-dialog.light-on-dark-dialog .md-list[class$=-line] md-list-item>.md-no-style .md-list-item-text h3, md-dialog.light-on-dark-dialog .md-list md-list-item .md-list-item-text .list-item-title, md-dialog.light-on-dark-dialog .md-list md-list-item .md-list-item-text h3, md-dialog.light-on-dark-dialog .md-list md-list-item>.md-no-style .md-list-item-text .list-item-title, md-dialog.light-on-dark-dialog .md-list md-list-item>.md-no-style .md-list-item-text h3, md-dialog.light-on-dark-dialog md-list md-list-item .md-list-item-text .list-item-title, md-dialog.light-on-dark-dialog md-list md-list-item .md-list-item-text h3, md-dialog.light-on-dark-dialog md-list md-list-item>.md-no-style .md-list-item-text .list-item-title, md-dialog.light-on-dark-dialog md-list md-list-item>.md-no-style .md-list-item-text h3 {
+color: red;
+text-decoration: underline;
+}
+
+/* Login description */
+md-list-item.md-2-line .md-list-item-text p, md-list-item.md-2-line>._md-no-style .md-list-item-text p, md-list-item.md-3-line .md-list-item-text p, md-list-item.md-3-line>._md-no-style .md-list-item-text p {
+color: #000;
+}
+
+/* username and password fields */
+md-dialog.light-on-dark-dialog md-input-container .md-input, md-dialog.light-on-dark-dialog md-input-container.md-input-focused .md-input, md-dialog.light-on-dark-dialog md-input-container.md-input-focused:not(.md-input-invalid) .md-input, md-dialog.light-on-dark-dialog md-input-container.md-input-focused:not(.md-input-invalid) input, md-dialog.light-on-dark-dialog md-input-container.md-input-focused:not(.md-input-invalid) label, md-dialog.light-on-dark-dialog md-input-container.md-input-focused input, md-dialog.light-on-dark-dialog md-input-container.md-input-focused label, md-dialog.light-on-dark-dialog md-input-container.md-input-has-value .md-input, md-dialog.light-on-dark-dialog md-input-container.md-input-has-value input, md-dialog.light-on-dark-dialog md-input-container.md-input-has-value label, md-dialog.light-on-dark-dialog md-input-container input, md-dialog.light-on-dark-dialog md-input-container label {
+    border-color: black;
+    color: black;
+}
+
+/* background text in password fields */
+.light-on-dark-dialog md-input-container label:not(.md-no-float):not(._md-container-ignore) {
+    color: #000;
+}
+
+/* Login color button on username & password page */
+.light-on-dark-dialog .md-button.button-confirm, .light-on-dark-dialog .service-form-static-panel button.button-confirm prm-icon+span, .light-on-dark-dialog .service-form-static-panel button.button-confirm prm-icon svg path, .service-form-static-panel button.button-confirm .light-on-dark-dialog prm-icon+span, .service-form-static-panel button.button-confirm prm-icon svg .light-on-dark-dialog path {
+    color: #000;
+}
+
+.light-on-dark-dialog .md-button._md-focused:not([disabled]), .light-on-dark-dialog .md-button.hovered:not([disabled]), .light-on-dark-dialog .md-button.md-focused:not([disabled]), .light-on-dark-dialog .md-button:focus:not([disabled]), .light-on-dark-dialog .md-button:hover:not([disabled]) {
+    color: grey;
+    background-color: hsla(0,0%,100%,.08);
+}
+
+/* Sign in choices color above the description */
+md-dialog.light-on-dark-dialog .md-list[class$=-line] md-list-item .md-list-item-text .list-item-title, md-dialog.light-on-dark-dialog .md-list[class$=-line] md-list-item .md-list-item-text h3, md-dialog.light-on-dark-dialog .md-list[class$=-line] md-list-item>.md-no-style .md-list-item-text .list-item-title, md-dialog.light-on-dark-dialog .md-list[class$=-line] md-list-item>.md-no-style .md-list-item-text h3, md-dialog.light-on-dark-dialog .md-list md-list-item .md-list-item-text .list-item-title, md-dialog.light-on-dark-dialog .md-list md-list-item .md-list-item-text h3, md-dialog.light-on-dark-dialog .md-list md-list-item>.md-no-style .md-list-item-text .list-item-title, md-dialog.light-on-dark-dialog .md-list md-list-item>.md-no-style .md-list-item-text h3, md-dialog.light-on-dark-dialog md-list md-list-item .md-list-item-text .list-item-title, md-dialog.light-on-dark-dialog md-list md-list-item .md-list-item-text h3, md-dialog.light-on-dark-dialog md-list md-list-item>.md-no-style .md-list-item-text .list-item-title, md-dialog.light-on-dark-dialog md-list md-list-item>.md-no-style .md-list-item-text h3 {
+    color: red;
+}
+
+/* Make headings (e.g. "OSU Students, Faculty, and Staff" bold */
+.login-dialog md-list md-list-item .md-list-item-text .list-item-title, md-list-item.list-item-as-link {
+    color: red;
+    font-size:  1.5em;
+    font-weight:  500;
+}
+/* End Customization of Sign In screen */
