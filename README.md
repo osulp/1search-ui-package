@@ -21,7 +21,7 @@
 
 3.  Point local devenv to OSU's Sandbox: 
       - gulp/config.js
-         - var PROXY_SERVER = 'http://alliance-primo-sb.hosted.exlibrisgroup.com'
+         - var PROXY_SERVER = 'http://alliance-primo-sb.hosted.exlibrisgroup.com:443'
 
 4.  Make changes (e.g., custom1.js or custom1.css)
 
