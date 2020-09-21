@@ -1,11 +1,9 @@
 (function(){
 "use strict";
+var app = angular.module('viewCustom', ['oadoi', 'angularLoad', 'reportProblem']);
 
 /************************************* BEGIN Bootstrap Script ************************************/
 /* We are a CENTRAL_PACKAGE, so use the below line to bootstrap the module */
-
-var app = angular.module('viewCustom', ['angularLoad', 'reportProblem']);
-
 // var app = angular.module('viewCustom', ['angularLoad','toggleInstitutions','reportProblem']);
 /************************************* END Bootstrap Script ************************************/
 
@@ -101,6 +99,71 @@ app.component('prmBackToLibrarySearchButtonAfter', {
   template: '\n    <div id="covid-19">\n      Due to the impacts of COVID-19, Summit requesting for physical materials is no longer available but you can still sign in and request books via Interlibrary Loan. Please visit <a href="https://library.oregonstate.edu/reference">Ask a Librarian</a> for help.\n    </div>\n  ',
   scope: {},
   bindings: { parentCtrl: '<' }
+});
+
+//OADOI find open access articles
+app.constant('oadoiOptions', {
+  "imagePath": "custom/OSU/img/oa_50.png",
+  "email": "library.1search@oregonstate.edu"
+});
+
+//OADOI
+angular.module('oadoi', []).component('prmSearchResultAvailabilityLineAfter', {
+  bindings: { parentCtrl: '<' },
+  controller: function controller($scope, $http, $element, oadoiService, oadoiOptions) {
+    this.$onInit = function () {
+      $scope.oaDisplay = false; /* default hides template */
+      $scope.imagePath = oadoiOptions.imagePath;
+      var email = oadoiOptions.email;
+      var item = this.parentCtrl.result;  // item data is stored in 'prmSearchResultAvailability' (its parent)
+      var obj = item.pnx.addata;
+
+      if (obj.hasOwnProperty("doi")) {
+        var doi = obj.doi[0];
+        console.log("doi:" + doi);
+
+        if (doi) {
+          var url = "https://api.oadoi.org/v2/" + doi + "?email=" + email;
+
+          var response = oadoiService.getOaiData(url).then(function (response) {
+            console.log("it worked");
+            console.log(response);
+            var oalink = response.data.best_oa_location.url;
+            console.log(oalink);
+            if (oalink === null) {
+              $scope.oaDisplay = false;
+              console.log("it's false");
+              $scope.oaClass = "ng-hide";
+            } else {
+              $scope.oalink = oalink;
+              $scope.oaDisplay = true;
+              $element.children().removeClass("ng-hide"); /* initially set by $scope.oaDisplay=false */
+              $scope.oaClass = "ng-show";
+            }
+          });
+        } else {
+          $scope.oaDisplay = false;
+        }
+      } else {
+        $scope.oaClass = "ng-hide";
+      }
+    };
+  },
+  template: '\
+<div style="height:50px;padding:15px;" ng-show="{{oaDisplay}}" class="{{oaClass}}"><img src="{{imagePath}}" style="float:left;height:22px;width:22px;margin-right:10px"><p style="font-weight:600;font-size:15px;color:#2c85d4;">Full text available: <a href="{{oalink}}" target="_blank" style="font-weight:600;font-size:15px;color:#2c85d4;">Open Access(via Unpaywall)</a></p></div>'
+}).factory('oadoiService', ['$http', function ($http) {
+  return {
+    getOaiData: function getOaiData(url) {
+      return $http({
+        method: 'GET',
+        url: url,
+        cache: true
+      });
+    }
+  };
+}]).run(function ($http) {
+  // Necessary for requests to succeed...not sure why
+  $http.defaults.headers.common = { 'X-From-ExL-API-Gateway': undefined };
 });
 
 ga('create', 'UA-35760875-20');
