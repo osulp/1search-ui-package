@@ -332,9 +332,15 @@ md-dialog.light-on-dark-dialog .md-list[class$=-line] md-list-item .md-list-item
     font-weight:  500;
 }
 
-/* Add after Primo November release to make text easier to read */
+/* Add after Primo 2020 November release to make text easier to read */
 md-dialog.light-on-dark-dialog .md-list[class$=-line] md-list-item.list-login .md-button, md-dialog.light-on-dark-dialog .md-list md-list-item.list-login .md-button, md-dialog.light-on-dark-dialog md-list md-list-item.list-login .md-button {
     color: black;
+}
+
+/* Change highlight color from inherit to blue for easier to read */
+md-dialog.light-on-dark-dialog md-list md-list-item.list-login .md-button:hover:not([disabled]) {
+    background-color: transparent;
+    color: blue;
 }
 
 /* End Customization of Sign In screen */
