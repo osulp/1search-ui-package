@@ -6,7 +6,7 @@
 // var app = angular.module('viewCustom', ['angularLoad','toggleInstitutions','reportProblem']);
 /************************************* END Bootstrap Script ************************************/
 
-var app = angular.module('viewCustom', ['oadoi', 'angularLoad', 'reportProblem']);
+var app = angular.module('viewCustom', ['oadoi', 'oadoiResults', 'angularLoad', 'reportProblem']);
 // Add Google Scholar and Worldcat search in facet pane
 app.component('prmFacetExactAfter', {
     bindings: { parentCtrl: '<' },
@@ -126,37 +126,48 @@ app.component('prmBackToLibrarySearchButtonAfter', {
 //OADOI find open access articles
 app.constant('oadoiOptions', {
   "imagePath": "custom/OSU/img/oa_50.png",
-  "email": "library.1search@oregonstate.edu"
+  "email": "library.1search@oregonstate.edu",
+  "debug": false,
+  "showOnResultsPage": true
 });
 
 //OADOI
-angular.module('oadoi', []).component('prmSearchResultAvailabilityLineAfter', {
+angular.module('oadoi', []).component('prmFullViewServiceContainerAfter', {
   bindings: { parentCtrl: '<' },
   controller: function controller($scope, $http, $element, oadoiService, oadoiOptions) {
     this.$onInit = function () {
       $scope.oaDisplay = false; /* default hides template */
       $scope.imagePath = oadoiOptions.imagePath;
       var email = oadoiOptions.email;
+      var section= $scope.$parent.$ctrl.service.scrollId;
+      var obj = $scope.$ctrl.parentCtrl.item.pnx.addata;
+      var debug = oadoiOptions.debug;
+
+      /* prmSearchResultAvailabilityLineAfter, bindings: { parentCtrl: '<' }
       var item = this.parentCtrl.result;  // item data is stored in 'prmSearchResultAvailability' (its parent)
       var obj = item.pnx.addata;
-
+      */
+      
       if (obj.hasOwnProperty("doi")) {
         var doi = obj.doi[0];
-        console.log("doi:" + doi);
+        if(debug){console.log("doi:" + doi);}
 
-        if (doi) {
+        if (doi && section=="action_list") {
           var url = "https://api.oadoi.org/v2/" + doi + "?email=" + email;
 
           var response = oadoiService.getOaiData(url).then(function (response) {
-            console.log("it worked");
-            console.log(response);
+            if(debug){
+              console.log("response from oadoiService received:");
+              console.log(response);
+            }
             var oalink = response.data.best_oa_location.url;
             console.log(oalink);
             if (oalink === null) {
               $scope.oaDisplay = false;
-              console.log("it's false");
+              if(debug){console.log("oaDisplay set to false (no link returned");}
               $scope.oaClass = "ng-hide";
             } else {
+              if(debug){ console.log("oalink from response: " + oalink); }
               $scope.oalink = oalink;
               $scope.oaDisplay = true;
               $element.children().removeClass("ng-hide"); /* initially set by $scope.oaDisplay=false */
@@ -171,8 +182,7 @@ angular.module('oadoi', []).component('prmSearchResultAvailabilityLineAfter', {
       }
     };
   },
-  template: '\
-<div style="height:50px;padding:15px;" ng-show="{{oaDisplay}}" class="{{oaClass}}"><img src="{{imagePath}}" style="float:left;height:22px;width:22px;margin-right:10px"><p style="font-weight:600;font-size:15px;color:#2c85d4;">Full text available: <a href="{{oalink}}" target="_blank" style="font-weight:600;font-size:15px;color:#2c85d4;">Open Access(via Unpaywall)</a></p></div>'
+  template: '<div style="height:50px;padding:15px;" ng-show="{{oaDisplay}}" class="{{oaClass}}"><img src="{{imagePath}}" style="float:left;height:22px;width:22px;margin-right:10px"><p style="font-weight:600;font-size:15px;color:#2c85d4;">Full text available: <a href="{{oalink}}" target="_blank" style="font-weight:600;font-size:15px;color:#2c85d4;">Open Access(via Unpaywall)</a></p></div>'
 }).factory('oadoiService', ['$http', function ($http) {
   return {
     getOaiData: function getOaiData(url) {
@@ -180,13 +190,79 @@ angular.module('oadoi', []).component('prmSearchResultAvailabilityLineAfter', {
         method: 'GET',
         url: url,
         cache: true
-      });
+      })
     }
-  };
+  }
 }]).run(function ($http) {
   // Necessary for requests to succeed...not sure why
-  $http.defaults.headers.common = { 'X-From-ExL-API-Gateway': undefined };
-});
+  $http.defaults.headers.common = { 'X-From-ExL-API-Gateway': undefined }
+},
+);
+
+//OADOIResults
+angular
+  .module('oadoiResults', [])
+  .component('prmSearchResultAvailabilityLineAfter', {
+    bindings: { parentCtrl: '<'},
+    template: `
+      <oadoi-results ng-if="$ctrl.show">
+        <div layout="flex" ng-if="$ctrl.best_oa_link" class="layout-row" style="margin-top: 5px;">
+          <prm-icon icon-type="svg" svg-icon-set="action" icon-definition="ic_lock_open_24px"></prm-icon>
+          <a class="arrow-link-button md-primoExplore-theme md-ink-ripple" style="margin-left: 3px; margin-top: 3px;"
+             target="_blank" href="{{$ctrl.best_oa_link}}"><strong>Open Access(via Unpaywall)</strong></a>
+          <prm-icon link-arrow icon-type="svg" svg-icon-set="primo-ui" icon-definition="chevron-right"></prm-icon>
+        </div>
+        <div ng-if="$ctrl.debug" class="layout-row">
+          <table>
+            <tr><td><strong>doi</strong></td><td>{{$ctrl.doi}}</td></tr>
+            <tr><td><strong>is_OA</strong></td><td>{{$ctrl.is_oa}}</td>
+            <tr><td><strong>best_oa_link</strong></td><td>{{$ctrl.best_oa_link}}</td></tr>
+          </table>
+        </div>
+      </oadoi-results>`,
+    controller:
+      function oadoiResultsCtrl(oadoiOptions, $scope, $element, $http) {
+        // get data from oadoiOptions
+        var self = this;
+        self.debug = oadoiOptions.debug;
+        var showOnResultsPage = oadoiOptions.showOnResultsPage;
+
+        // ensure that preference is set to display
+        var onFullView = this.parentCtrl.isFullView || this.parentCtrl.isOverlayFullView;
+        self.show = showOnResultsPage && !onFullView;
+        if(!showOnResultsPage){ return; }
+
+        // get the item from the component's parent controller
+        var item = this.parentCtrl.result;
+        try{
+
+          // obtain doi and open access information from the item PNX (metadata)
+          var addata = item.pnx.addata;
+          if(addata){
+            this.doi = addata.hasOwnProperty("doi")? addata.doi[0] : null; //default to first doi (list)
+            this.is_oa = addata.hasOwnProperty("oa"); //true if property is present at all (regardless of value)
+          }
+
+          // if there's a doi and it's not already open access, ask the oadoi.org for an OA link
+          /* not use this.doi && !this.is_oa because articles with is_oa is true can require patrons sign in */ 
+          if(this.doi){
+            $http.get("https://api.oadoi.org/v2/"+this.doi+"?email="+oadoiOptions.email)
+              .then(function(response){
+                // if there is a link, save it so it can be used in the template above
+                self.best_oa_link = (response.data.best_oa_location)? response.data.best_oa_location.url : "";
+              }, function(error){
+                if(self.debug){
+                  console.log(error);
+                }
+              });
+          }
+        }catch(e){
+          if(self.debug){
+            console.log("error caught in oadoiResultsCtrl: " + e);
+          }
+        }
+      }
+  });
 
 ga('create', 'UA-35760875-20');
 ga('send', 'pageview');
