@@ -2,23 +2,21 @@
 * 
 *	Orbis Cascade Alliance Central Package
 *	Environment: Production
-*	Last updated: 20191226
+*	Last updated: 20210212
 *	
-*	Included customizations:
-*		Hide/show Summit institutions (updated 20180701)
-*		Insert custom action (updated 20181107)
-*		Send SMS (updated 20181107)
+* Included customizations:
+*   Hide/show Summit institutions (updated 20180701)
+*   Insert custom action (updated 20181107)
 *   Custom model window for peer-review and open access badges (updated 20191226)
 *   Toggle advanced search in mobile display (updated 20181009)
 *   Favorite signin warning (updated 20200311)
 *   Enlarge Covers (Added 20200311)
 *   Text a Call Number (Added 20200724)
 *   External Search (Added 20200724)
-*
-*   
+*   Force Login (Added 20201022)
+*   eShelf Links (Added 20201103)
+*   Hathi Trust Availability (Added 20210212)
 */
-
-
 
 
 (function(){
@@ -170,104 +168,10 @@ angular.module('customActions').factory('customActions', function () {
  
 /* Custom action Ends */
 
-/* Send SMS */
-
-angular.module('sendSms', ['ngMaterial', 'primo-explore.components', 'customActions']);
-
-/* eslint-disable max-len */
-angular.module('sendSms').component('ocaSendSms', {
-    bindings: {
-        item: '<',
-        finishedSmsEvent: '&'
-    },
-    template: '\n  <div class="send-actions-content-item" layout="row">\n      <md-content layout-wrap layout-padding layout-fill>\n          <form name="smsForm" novalidate layout="column" layout-align="center center" (submit)="$ctrl.sendSms($event);">\n              <div layout="row" class="layout-full-width" layout-align="center center">\n                  <div flex="20" flex-sm="10" hide-xs></div>\n                  <div class="form-focus service-form" layout-padding flex>\n                      <div layout-margin>\n                          <div layout="column">\n                              <h4 class="md-subhead">Standard message and data rates may apply.</h4>\n                              <md-input-container class="underlined-input md-required"><label>Phone number:</label>\n                                  <input ng-model="$ctrl.phoneNumber" name="phoneNumber" type="text" required ng-pattern="::$ctrl.telRegEx">\n                                  <div ng-messages="smsForm.phoneNumber.$error">\n                                      <div ng-message="pattern, required ">phone number is invalid</div>\n                                  </div>\n                              </md-input-container>\n                              <md-input-container class="md-required"><label>Carrier:</label>\n                                <md-select ng-model="$ctrl.carrier" name="carrier" placeholder="Select a carrier" required>\n                                  <md-option ng-repeat="(carrier, address) in carriers" value="{{ address }}">\n                                    {{ carrier }}\n                                  </md-option>\n                                </md-select>\n                                <div ng-messages="smsForm.carrier.$error">\n                                    <div ng-message="required">please select a carrier</div>\n                                </div>\n                              </md-input-container>\n                              <md-input-container class="underlined-input" ng-if="$ctrl.isCaptcha">\n                                  <div vc-recaptcha key="$ctrl.getCaptchaPublicKey()" on-success="$ctrl.setResponse(response)"></div>\n                                  <span class="recaptcha-error-info" ng-show="smsForm.$submitted && (smsForm.recaptchaResponse.$invalid || smsForm.$error.recaptcha.length)">\n                                    <span translate="captcha.notselected"></span>\n                                  </span>\n                              </md-input-container>\n                          </div>\n                      </div>\n                  </div>\n                  <div flex="20" flex-sm="10" hide-xs></div>\n              </div>\n              <div layout="row">\n                  <div layout="row" layout-align="center" layout-fill>\n                      <md-button type="submit" class="button-with-icon button-large button-confirm" aria-label="Send the result by SMS">\n                          <prm-icon icon-type="svg" svg-icon-set="primo-ui" icon-definition="send"></prm-icon><span translate="email.popup.link.send"></span></md-button>\n                  </div>\n              </div>\n          </form>\n      </md-content>\n  </div>\n  <prm-send-email ng-hide="true"></prm-send-email>\n  <oca-send-sms-after parent-ctrl="$ctrl"></oca-send-sms-after>',
-    controller: ['$scope', 'smsOptions', function ($scope, smsOptions) {
-        var _this = this;
-
-        this.$onInit = function () {
-            $scope.$watch('$$childTail.$ctrl', function (ctrl) {
-                return _this.sendEmailService = ctrl.sendEmailService;
-            });
-            $scope.carriers = smsOptions.smsCarriers;
-            _this.carrier = _this.phoneNumber = '';
-            _this.telRegEx = /^\d{3}( |-)?\d{3}( |-)?\d{4}$/;
-        };
-        this.validate = function () {
-            return _this.telRegEx.test(_this.phoneNumber) && _this.carrier;
-        };
-        this.isCaptcha = function () {
-            return window.appConfig['system-configuration']['Activate Captcha [Y/N]'] == 'Y';
-        };
-        this.getCaptchaPublicKey = function () {
-            return window.appConfig['system-configuration']['Public Captcha Key'];
-        };
-        this.setResponse = function (response) {
-            return _this.gCaptchaResponse = response;
-        };
-        this.sendSms = function () {
-            if (_this.validate()) {
-                _this.sendEmailService.sendEmail([_this.phoneNumber + '@' + _this.carrier], // addresses
-                '', // subject
-                '', // note
-                [_this.item], // items
-                _this.gCaptchaResponse // captcha
-                ).then(function (msg) {
-                    return console.log('sms successfully sent', msg);
-                }).catch(function (err) {
-                    return console.error('sms sending failed', err);
-                }).finally(function () {
-                    return _this.finishedSmsEvent();
-                });
-            }
-        };
-    }]
-}).run(['$templateCache', 'smsOptions', function ($templateCache, smsOptions) {
-    $templateCache.put('components/search/actions/actionContainer/action-container.html', '\n  <oca-send-sms ng-if="($ctrl.actionName===\'' + smsOptions.smsAction.name + '\')" finished-sms-event="$ctrl.throwCloseTabsEvent()" item="::$ctrl.item"></oca-send-sms>\n  <prm-send-email ng-if="($ctrl.actionName===\'E-mail\')" (finished-email-event)="$ctrl.throwCloseTabsEvent()" [item]="::$ctrl.item" [toggleform]="::$ctrl.toggleActionCotent" [user]="::\'\'"></prm-send-email>\n  <prm-citation ng-if="($ctrl.actionName===\'Citation\')" [item]="::$ctrl.item" [on-toggle]="::$ctrl.onToggle"></prm-citation>\n  <prm-permalink ng-if="($ctrl.actionName===\'Permalink\')" [item]="::$ctrl.item" [on-toggle]="::$ctrl.onToggle"></prm-permalink>\n  <prm-print-item ng-if="($ctrl.actionName===\'Print\')" (close-tabs-event)="$ctrl.throwCloseTabsEvent()" [item]="::$ctrl.item" [on-toggle]="::$ctrl.onToggle"></prm-print-item>\n  <prm-endnote ng-if="($ctrl.actionName===\'EndNote\')" (close-tabs-event)="$ctrl.throwCloseTabsEvent()" [item]="::$ctrl.item" [on-toggle]="::$ctrl.onToggle"></prm-endnote>\n  <prm-easybib ng-if="($ctrl.actionName===\'EasyBib\')" (close-tabs-event)="$ctrl.throwCloseTabsEvent()" [item]="::$ctrl.item" [on-toggle]="::$ctrl.onToggle"></prm-easybib>\n  <prm-refworks ng-if="($ctrl.actionName===\'RefWorks\')" (close-tabs-event)="$ctrl.throwCloseTabsEvent()" [item]="::$ctrl.item" [on-toggle]="::$ctrl.onToggle"></prm-refworks>\n  <prm-export-ris ng-if="($ctrl.actionName===\'RISPushTo\')" [item]="::$ctrl.item" [on-toggle]="::$ctrl.onToggle"></prm-export-ris>\n  <prm-action-container-after parent-ctrl="$ctrl"></prm-action-container-after>');
-}]);
-
-/* eslint-disable max-len */
-angular.module('sendSms').component('smsAction', {
-    require: {
-        prmActionCtrl: '^prmActionList'
-    },
-    controller: ['customActions', 'smsOptions', function (customActions, smsOptions) {
-        var _this2 = this;
-
-        this.$onInit = function () {
-            customActions.removeAction(smsOptions.smsAction, _this2.prmActionCtrl);
-            customActions.addAction(smsOptions.smsAction, _this2.prmActionCtrl);
-        };
-    }]
-});
-
-angular.module('sendSms').value('smsOptions', {
-    smsAction: {
-        name: 'send_sms',
-        label: 'SMS',
-        index: 9,
-        icon: {
-            icon: 'ic_smartphone_24px',
-            iconSet: 'hardware',
-            type: 'svg'
-        }
-    },
-    smsCarriers: {
-        'ATT': 'txt.att.net',
-        'T-Mobile': 'tmomail.net',
-        'Virgin': 'vmobl.com',
-        'Sprint': 'messaging.sprintpcs.com',
-        'Nextel': 'messaging.nextel.com',
-        'Verizon': 'vtext.com',
-        'Cricket': 'mms.mycricket.com',
-        'Qwest': 'qwestmp.com',
-        'Project Fi': 'msg.fi.google.com'
-    }
-}); /* Send SMS */
-
-    /*
-     * Toggle institutions (hide/show summit libraries)
-     * https://github.com/alliance-pcsg/primo-explore-toggle-institutions
-     */
+/*
+* Toggle institutions (hide/show summit libraries)
+* https://github.com/alliance-pcsg/primo-explore-toggle-institutions
+*/
 
 angular
   .module('toggleInstitutions', [])
@@ -485,9 +389,9 @@ angular
         $scope.favWarning = favSession.getData();
     }
     /*If the user is a guest then the isLoggedIn variable is set to 'false'*/
-    let rootScope = $scope.$root;
-    let uSMS = rootScope.$$childHead.$ctrl.userSessionManagerService;
-    let jwtData = uSMS.jwtUtilService.getDecodedToken();
+    var rootScope = $scope.$root;
+    var uSMS = rootScope.$$childHead.$ctrl.userSessionManagerService;
+    var jwtData = uSMS.jwtUtilService.getDecodedToken();
     if (jwtData.userGroup === "GUEST") {
         $scope.isLoggedIn = 'false';
     }
@@ -631,10 +535,16 @@ angular
               // Get vid
               var vid = angular.uppercase($location.search().vid);
               
+              // Get institution code
+              var institution = vid;
+              if (angular.isDefined(smsActionOptions.institution) && smsActionOptions.institution != '') {
+                institution = smsActionOptions.institution;
+              }
+              
               // Continue if this institution has availability
               var available = false;
               for (var i=0; i < availinstitution.length; i++) {
-                if (availinstitution[i].indexOf('$$I' + vid) != -1) {
+                if (availinstitution[i].indexOf('$$I' + institution + '$$') != -1) {
                   available = true;
                 }
               }
@@ -647,10 +557,13 @@ angular
                 var mms_id = '';
                 var lds04 = pnx.display.lds04;
                 if (!angular.isUndefined(lds04)) {
-                  var loc = '$$I' + vid;
+                  var loc_start = 0;
+                  var loc = '';
                   for (var m=0; m < lds04.length; m++) {
-                    if (lds04[m].includes(loc)) {
-                      mms_id = lds04[m].replace(loc, '');
+                    loc_start = lds04[m].indexOf('$$I');
+                    loc = lds04[m].substr(loc_start);
+                    if (loc == '$$I' + vid) {
+                      mms_id = lds04[m].substr(0, loc_start);
                     }
                   }
                 }
@@ -660,7 +573,7 @@ angular
                 var availlibrary = pnx.display.availlibrary;
                 for (var h = 0; h < availlibrary.length; h++) {
                   var holding = availlibrary[h];
-                  if (holding.indexOf('$$I' + vid) != -1) {
+                  if (holding.indexOf('$$I' + institution + '$$') != -1) {
                     var split_holding = holding.split('$$');
                     for (var s = 0; s < split_holding.length; s++) {
                       var sub = split_holding[s];
@@ -786,7 +699,8 @@ angular
         iconSet: 'communication',
         type: 'svg'
       },
-      libraries: ''
+      libraries: '',
+      institution: ''
     });
 
 //* End Text a Call Number  *//
@@ -809,24 +723,7 @@ angular.module('externalSearch', [])
     }
   })
   .component('externalSearchContents', {
-    template: `
-      <div ng-if="$ctrl.checkName()">
-        <div ng-hide="$ctrl.checkCollapsed()">
-          <div class="section-content animate-max-height-variable">
-            <div class="md-chips md-chips-wrap">
-              <div ng-repeat="target in targets" aria-live="polite" class="md-chip animate-opacity-and-scale facet-element-marker-local4">
-                <div class="md-chip-content layout-row" role="button" tabindex="0">
-                  <strong dir="auto" title="{{ target.name }}">
-                    <a ng-href="{{ target.url + target.mapping(queries, filters) }}" target="_blank">
-                      <img ng-src="{{ target.img }}" width="22" height="22" alt="{{ target.alt }}" style="vertical-align:middle;"> {{ target.name }}
-                    </a>
-                  </strong>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>`,
+    template: '<div ng-if="$ctrl.checkName()"><div ng-hide="$ctrl.checkCollapsed()"><div class="section-content animate-max-height-variable"><div class="md-chips md-chips-wrap"><div ng-repeat="target in targets" aria-live="polite" class="md-chip animate-opacity-and-scale facet-element-marker-local4"><div class="md-chip-content layout-row" role="button" tabindex="0"><strong dir="auto" title="{{ target.name }}"><a ng-href="{{ target.url + target.mapping(queries, filters) }}" target="_blank"><img ng-src="{{ target.img }}" width="22" height="22" alt="{{ target.alt }}" style="vertical-align:middle;"> {{ target.name }}</a></strong></div></div></div></div></div></div>',
     controller: function ($scope, $location, externalSearchOptions) {
       $scope.facetName = externalSearchOptions.facetName;
       $scope.targets = externalSearchOptions.searchTargets;
@@ -876,7 +773,7 @@ angular.module('externalSearch', [])
       { // WorldCat
         "name": "Worldcat",
         "url": "https://www.worldcat.org/search?q=",
-        "img": "/primo-explore/custom/central_package/img/worldcat-logo.png",
+        "img": "/primo-explore/custom/CENTRAL_PACKAGE/img/worldcat-logo.png",
         "alt": "Worldcat Logo",
         mapping: function mapping(queries, filters) {
           var query_mappings = {
@@ -903,7 +800,7 @@ angular.module('externalSearch', [])
       { // Google Scholar
         "name": "Google Scholar",
         "url": "https://scholar.google.com/scholar?q=",
-        "img": "/primo-explore/custom/central_package/img/google-logo.png",
+        "img": "/primo-explore/custom/CENTRAL_PACKAGE/img/google-logo.png",
         "alt": "Google Scholar Logo",
         mapping: function mapping(queries, filters) {
           try {
@@ -918,5 +815,334 @@ angular.module('externalSearch', [])
   });
 
 //* End External Search *//
+
+//* Begin Force Login *//
+
+    angular
+        .module('forceLogin', [])
+        // Create and handle session storage variable
+        .factory('forceLoginSession', function ($window, $rootScope) {
+            angular.element($window).on('storage', function (event) {
+                if (event.key === 'forceLogin') {
+                    $rootScope.$apply();
+                }
+            });
+            // Functions for setting and getting session data
+            return {
+                setData: function (val) {
+                    $window.sessionStorage && $window.sessionStorage.setItem('forceLogin', val);
+                    return this;
+                },
+                getData: function () {
+                    return $window.sessionStorage && $window.sessionStorage.getItem('forceLogin');
+                }
+            };
+        })
+        // Drop code into element added in local package
+        .component('forceLogin', {
+            controller: function ($scope, $rootScope, forceLoginSession) {
+                this.$onInit = function () {
+                    // Access the control with the loginService
+                    var parentCtrl = $scope.$parent.$parent.$ctrl;
+
+                    // Put results of isSignedIn() into a variable
+                    var checkLogin = false;
+                    if (parentCtrl.isSignedIn() && !angular.isUndefined(parentCtrl.userName())) {
+                        checkLogin = true;
+                    }
+
+                    // Get variable from session storage
+                    $scope.forceLogin = forceLoginSession.getData();
+
+                    // If the session variable is still null because user is not logged in and has not dismissed the login dialog
+                    if (($scope.forceLogin == null) && (checkLogin == false)) {
+                        // Open the login dialog box
+                        parentCtrl.loginService.handleLoginClick();
+                        // And set the session variable
+                        forceLoginSession.setData('true');
+                    }
+                    // Handle opening a new browser tab when logged in: the page loads with userName undefined, then later populates
+                    // so this will close the dialog box once the page finishes loading
+                    else if (checkLogin == true) {
+                        parentCtrl.loginService.$mdDialog.destroy();
+                    }
+                }
+            }
+        });
+
+//* End Force Login *//
+
+
+//* Begin eshelf.menu link module *//
+  angular
+    .module('eShelfLinks', [])
+    .controller('DirectiveController',function($scope, $window, eShelfOptions){
+      $scope.data = eShelfOptions;
+      $scope.openLink = function (url) {
+        $window.open(url);
+      }
+    })
+    .directive('mdMenuContent', function($compile){
+      return {
+         restrict: "E",
+         link: function($scope, $element){
+          var customEl = angular.element('<custom-directive></custom-directive>');
+          $element.append(customEl);
+          $compile(customEl)($scope);
+        }
+      }
+    })
+    .directive('customDirective', function ($window, $compile) {
+      return {
+        restrict: "E",
+        controller: 'DirectiveController',
+        scope: {data: '=?'},
+        link: function ($scope, $element, $attr, ctrl) {
+          if($scope.data.items.length > 0){
+            angular.forEach($scope.data.items, function (value, index) {
+              var directiveName = "md-menu-item",
+              directiveLabel = value.label,
+              directiveClass = "menu-custom-link",
+              directiveText = value.text,
+              directiveLink = value.link,
+              directiveIcon = value.icon;
+              var el = '<' + directiveName
+                + ' class="'+ directiveClass + '">'
+                + '<button class="button-with-icon md-button md-primoExplore-theme md-ink-ripple" type="button" aria-label="'                               
+                + directiveLabel + '" ng-click="openLink(\'' + directiveLink + '\')">'
+                + '<md-icon md-svg-icon="' + directiveIcon + '"></md-icon>'
+                + '<span class="custom-link">' + directiveText + '</span>'
+                + '</button>'
+                + '</' + directiveName + '">';
+              var compiledEl = angular.element($compile(el)($scope));
+              var menu = document.querySelector('custom-directive'); 
+              menu.appendChild(compiledEl[0]);       
+            });    
+          }          
+        }       
+      };      
+    })
+    .value('eShelfOptions', {
+      items:[]
+    });
+//* End eshelf.menu link module *//
+
+
+    //* Begin Hathi Trust Availability *//
+    //* Adapted from UMNLibraries primo-explore-hathitrust-availability *//
+    //* https://github.com/UMNLibraries/primo-explore-hathitrust-availability *//
+    angular
+        .module('hathiTrustAvailability', [])
+        .constant(
+            'hathiTrustBaseUrl',
+            'https://catalog.hathitrust.org/api/volumes/brief/json/'
+        )
+        .config([
+            '$sceDelegateProvider',
+            'hathiTrustBaseUrl',
+            function ($sceDelegateProvider, hathiTrustBaseUrl) {
+                var urlWhitelist = $sceDelegateProvider.resourceUrlWhitelist();
+                urlWhitelist.push(hathiTrustBaseUrl + '**');
+                $sceDelegateProvider.resourceUrlWhitelist(urlWhitelist);
+            },
+        ])
+        .factory('hathiTrust', [
+            '$http',
+            '$q',
+            'hathiTrustBaseUrl',
+            function ($http, $q, hathiTrustBaseUrl) {
+                var svc = {};
+                var lookup = function (ids) {
+                    if (ids.length) {
+                        var hathiTrustLookupUrl = hathiTrustBaseUrl + ids.join('|');
+                        return $http
+                            .jsonp(hathiTrustLookupUrl, {
+                                cache: true,
+                                jsonpCallbackParam: 'callback',
+                            })
+                            .then(function (resp) {
+                                return resp.data;
+                            });
+                    } else {
+                        return $q.resolve(null);
+                    }
+                };
+
+                // find a HT record URL for a given list of identifiers (regardless of copyright status)
+                svc.findRecord = function (ids) {
+                    return lookup(ids)
+                        .then(function (bibData) {
+                            for (var i = 0; i < ids.length; i++) {
+                                var recordId = Object.keys(bibData[ids[i]].records)[0];
+                                if (recordId) {
+                                    return $q.resolve(bibData[ids[i]].records[recordId].recordURL);
+                                }
+                            }
+                            return $q.resolve(null);
+                        })
+                        .catch(function (e) {
+                            console.error(e);
+                        });
+                };
+
+                // find a public-domain HT record URL for a given list of identifiers
+                svc.findFullViewRecord = function (ids) {
+                    var handleResponse = function (bibData) {
+                        var fullTextUrl = null;
+                        for (var i = 0; !fullTextUrl && i < ids.length; i++) {
+                            var result = bibData[ids[i]];
+                            for (var j = 0; j < result.items.length; j++) {
+                                var item = result.items[j];
+                                if (item.usRightsString.toLowerCase() === 'full view') {
+                                    fullTextUrl = result.records[item.fromRecord].recordURL;
+                                    break;
+                                }
+                            }
+                        }
+                        return $q.resolve(fullTextUrl);
+                    };
+                    return lookup(ids)
+                        .then(handleResponse)
+                        .catch(function (e) {
+                            console.error(e);
+                        });
+                };
+
+                return svc;
+            },
+        ])
+        .component('hathiTrustAvailability', {
+            require: {
+                prmSearchResultAvailabilityLine: '^prmSearchResultAvailabilityLine',
+            },
+            bindings: {
+                entityId: '@',
+                ignoreCopyright: '<',
+                hideIfJournal: '<',
+                hideOnline: '<',
+                msg: '@?',
+            },
+            controller: function (hathiTrust, hathiTrustAvailabilityOptions) {
+                var self = this;
+                self.$onInit = function () {
+                    // copy options from local package or central package defaults
+                    self.msg = hathiTrustAvailabilityOptions.msg;
+                    self.hideOnline = hathiTrustAvailabilityOptions.hideOnline;
+                    self.hideIfJournal = hathiTrustAvailabilityOptions.hideIfJournal;
+                    self.ignoreCopyright = hathiTrustAvailabilityOptions.ignoreCopyright;
+                    self.entityId = hathiTrustAvailabilityOptions.entityId;
+
+                    if (!self.msg) self.msg = 'Full Text Available at HathiTrust';
+
+                    // prevent appearance/request iff 'hide-online'
+                    if (self.hideOnline && isOnline()) {
+                        return;
+                    }
+
+                    // prevent appearance/request iff 'hide-if-journal'
+                    if (self.hideIfJournal && isJournal()) {
+                        return;
+                    }
+
+                    // prevent appearance/request if item is unavailable
+                    if (self.ignoreCopyright && !isAvailable()) {
+                        //allow links for locally unavailable items that are in the public domain
+                        self.ignoreCopyright = false;
+                    }
+
+                    // look for full text at HathiTrust
+                    updateHathiTrustAvailability();
+                };
+
+                var isJournal = function () {
+                    var format =
+                        self.prmSearchResultAvailabilityLine.result.pnx.addata.format[0];
+                    return !(format.toLowerCase().indexOf('journal') == -1); // format.includes("Journal")
+                };
+
+                var isAvailable = function isAvailable() {
+                    var available = self.prmSearchResultAvailabilityLine.result.delivery.availability[0];
+                    return (available.toLowerCase().indexOf('unavailable') == -1);
+                };
+
+                var isOnline = function () {
+                    var delivery =
+                        self.prmSearchResultAvailabilityLine.result.delivery || [];
+                    if (!delivery.GetIt1)
+                        return delivery.deliveryCategory.indexOf('Alma-E') !== -1;
+                    return self.prmSearchResultAvailabilityLine.result.delivery.GetIt1.some(
+                        function (g) {
+                            return g.links.some(function (l) {
+                                return l.isLinktoOnline;
+                            });
+                        }
+                    );
+                };
+
+                var formatLink = function (link) {
+                    return self.entityId ? link + '?signon=swle:' + self.entityId : link;
+                };
+
+                var isOclcNum = function (value) {
+                    return value.match(/^(\(ocolc\))?\d+$/i);
+                };
+
+                var updateHathiTrustAvailability = function () {
+                    var hathiTrustIds = (
+                        self.prmSearchResultAvailabilityLine.result.pnx.addata.oclcid || []
+                    )
+                        .filter(isOclcNum)
+                        .map(function (id) {
+                            return 'oclc:' + id.toLowerCase().replace('(ocolc)', '');
+                        });
+                    hathiTrust[self.ignoreCopyright ? 'findRecord' : 'findFullViewRecord'](
+                        hathiTrustIds
+                    ).then(function (res) {
+                        if (res) self.fullTextLink = formatLink(res);
+                    });
+                };
+            },
+            template:
+                '<span ng-if="$ctrl.fullTextLink" class="umnHathiTrustLink">\
+                <md-icon alt="HathiTrust Logo">\
+                  <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="100%" height="100%" viewBox="0 0 16 16" enable-background="new 0 0 16 16" xml:space="preserve">  <image id="image0" width="16" height="16" x="0" y="0"\
+                  xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAMAAAAoLQ9TAAAABGdBTUEAALGPC/xhBQAAACBjSFJN\
+                  AAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAACNFBMVEXuegXvegTsewTveArw\
+                  eQjuegftegfweQXsegXweQbtegnsegvxeQbvegbuegbvegbveQbtegfuegbvegXveQbvegbsfAzt\
+                  plfnsmfpq1/wplPuegXvqFrrq1znr2Ptok/sewvueQfuegbtegbrgRfxyJPlsXDmlTznnk/rn03q\
+                  pVnomkjnlkDnsGnvwobsfhPveQXteQrutHDqpF3qnUnpjS/prmDweQXsewjvrWHsjy7pnkvqqGDv\
+                  t3PregvqhB3uuXjusmzpp13qlz3pfxTskC3uegjsjyvogBfpmkHpqF/us2rttXLrgRjrgBjttXDo\
+                  gx/vtGznjzPtfhHqjCfuewfrjCnwfxLpjC7wtnDogBvssmjpfhLtegjtnEjrtnTmjC/utGrsew7s\
+                  o0zpghnohB/roUrrfRHtsmnlkTbrvH3tnEXtegXvegTveQfqhyHvuXjrrGTpewrsrmXqfRHogRjt\
+                  q2Dqewvqql/wu3vqhyDueQnwegXuegfweQPtegntnUvnt3fvxI7tfhTrfA/vzJvmtXLunEbtegrw\
+                  egTregzskjbsxI/ouoPsqFzniyrz2K3vyZnokDLpewvtnkv30J/w17XsvYXjgBbohR7nplnso1L0\
+                  1Kf40Z/um0LvegXngBnsy5juyJXvsGftrGTnhB/opVHoew7qhB7rzJnnmErkkz3splbqlT3smT3t\
+                  tXPqqV7pjzHvunjrfQ7vewPsfA7uoU3uqlruoEzsfQ/vegf///9WgM4fAAAAFHRSTlOLi4uLi4uL\
+                  i4uLi4uLi4tRUVFRUYI6/KEAAAABYktHRLvUtndMAAAAB3RJTUUH4AkNDgYNB5/9vwAAAQpJREFU\
+                  GNNjYGBkYmZhZWNn5ODk4ubh5WMQERUTl5CUEpWWkZWTV1BUYlBWUVVT19BUUtbS1tHV0zdgMDQy\
+                  NjE1MzRXsrC0sraxtWOwd3B0cnZxlXZz9/D08vbxZfDzDwgMCg4JdQsLj4iMio5hiI2LT0hMSk5J\
+                  TUvPyMzKzmHIzcsvKCwqLiktK6+orKquYZCuratvaGxqbmlta+8QNRBl6JQ26Oru6e3rnzBx0uQ8\
+                  aVGGvJopU6dNn1E8c9bsOXPniYoySM+PXbBw0eIlS5fl1C+PFRFlEBUVXbFy1eo1a9fliQDZYIHY\
+                  9fEbNm7avEUUJiC6ddv2HTt3mSuBBfhBQEBQSEgYzOIHAHtfTe/vX0uvAAAAJXRFWHRkYXRlOmNy\
+                  ZWF0ZQAyMDE2LTA5LTEzVDE0OjA2OjEzLTA1OjAwNMgVqAAAACV0RVh0ZGF0ZTptb2RpZnkAMjAx\
+                  Ni0wOS0xM1QxNDowNjoxMy0wNTowMEWVrRQAAAAASUVORK5CYII=" />\
+                  </svg> \
+                </md-icon>\
+                <a target="_blank" ng-href="{{$ctrl.fullTextLink}}">\
+                {{ ::$ctrl.msg }}\
+                  <prm-icon external-link="" icon-type="svg" svg-icon-set="primo-ui" icon-definition="open-in-new"></prm-icon>\
+                </a>\
+              </span>',
+        })
+        // Set default values for options
+        .value('hathiTrustAvailabilityOptions', {
+            msg: 'Full Text Available at HathiTrust',
+            hideOnline: false,
+            hideIfJournal: false,
+            ignoreCopyright: false,
+            entityId: ''
+        });
+    //* End Hathi Trust Availability *//
+
 
 })();

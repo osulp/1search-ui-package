@@ -6,7 +6,9 @@
 // var app = angular.module('viewCustom', ['angularLoad','toggleInstitutions','reportProblem']);
 /************************************* END Bootstrap Script ************************************/
 
-var app = angular.module('viewCustom', ['oadoi', 'oadoiResults', 'angularLoad', 'reportProblem']);
+// var app = angular.module('viewCustom', ['oadoi', 'oadoiResults', 'hathiTrustAvailability', 'angularLoad', 'reportProblem']);
+var app = angular.module('viewCustom', ['hathiTrustAvailability', 'angularLoad', 'reportProblem']);
+
 // Add Google Scholar and Worldcat search in facet pane
 app.component('prmFacetExactAfter', {
     bindings: { parentCtrl: '<' },
@@ -202,8 +204,11 @@ angular.module('oadoi', []).component('prmFullViewServiceContainerAfter', {
 //OADOIResults
 angular
   .module('oadoiResults', [])
-  .component('prmSearchResultAvailabilityLineAfter', {
-    bindings: { parentCtrl: '<'},
+  .component('oadoiresults', {
+    require: {
+      prmSearchResultAvailabilityLine: '^prmSearchResultAvailabilityLine',
+    },
+    //bindings: { parentCtrl: '<'},
     template: `
       <oadoi-results ng-if="$ctrl.show">
         <div layout="flex" ng-if="$ctrl.best_oa_link" class="layout-row" style="margin-top: 5px;">
@@ -228,12 +233,12 @@ angular
         var showOnResultsPage = oadoiOptions.showOnResultsPage;
 
         // ensure that preference is set to display
-        var onFullView = this.parentCtrl.isFullView || this.parentCtrl.isOverlayFullView;
+        var onFullView = self.prmSearchResultAvailabilityLine.isFullView || self.prmSearchResultAvailabilityLine.isOverlayFullView;
         self.show = showOnResultsPage && !onFullView;
         if(!showOnResultsPage){ return; }
 
         // get the item from the component's parent controller
-        var item = this.parentCtrl.result;
+        var item = self.prmSearchResultAvailabilityLine.result;
         try{
 
           // obtain doi and open access information from the item PNX (metadata)
@@ -263,6 +268,15 @@ angular
         }
       }
   });
+
+  app.component('prmSearchResultAvailabilityLineAfter', { template: '<hathi-trust-availability></hathi-trust-availability><oadoiresults></oadoiresults>' });
+  app.value('hathiTrustAvailabilityOptions', {
+    msg: 'Full Text Available at HathiTrust',
+    hideOnline: false,
+    hideIfJournal: false,
+    ignoreCopyright: true,
+    entityId: 'https://login.oregonstate.edu/idp/shibboleth'
+   });
 
 ga('create', 'UA-35760875-20');
 ga('send', 'pageview');
