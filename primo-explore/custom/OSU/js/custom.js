@@ -133,6 +133,9 @@ app.constant('oadoiOptions', {
 });
 
 //OADOI
+/* Based on OaDOI Link developed by Orbis Cascade Alliance's PCSG group
+  https://github.com/alliance-pcsg/primo-explore-oadoi-link
+*/
 angular.module('oadoi', []).component('prmFullViewServiceContainerAfter', {
   bindings: { parentCtrl: '<' },
   controller: function controller($scope, $http, $element, oadoiService, oadoiOptions) {
@@ -198,43 +201,43 @@ angular.module('oadoi', []).component('prmFullViewServiceContainerAfter', {
 );
 
 //OADOIResults
+/* The components are case sensitive, target "oadoiResults" instead of "oadoiresults" */
 angular
   .module('oadoiResults', [])
-  .component('oadoiresults', {
-    require: {
-      prmSearchResultAvailabilityLine: '^prmSearchResultAvailabilityLine',
-    },
+  .component('oadoiResults', {
+    bindings: {parentCtrl: '<'},
     controller:
       function oadoiResultsCtrl(oadoiOptions, $scope, $element, $http) {
+       this.$onInit = function () {
         var self = this;
-        this.$onInit = function() {
         // get data from oadoiOptions
         var debug = oadoiOptions.debug;
         var showOnResultsPage = oadoiOptions.showOnResultsPage;
 
+        // get the item from the component's parent controller
+        var addata = $scope.$parent.$parent.$parent.$ctrl.item.pnx.addata;
+        if (debug) {console.log("addata" + JSON.stringify(addata));}
+
         // ensure that preference is set to display
-        var onFullView = self.prmSearchResultAvailabilityLine.onFullView || self.prmSearchResultAvailabilityLine.isOverlayFullView;
-        self.show = showOnResultsPage && !onFullView;
+        var onFullView = $scope.$parent.$parent.$parent.$ctrl.onFullView || $scope.$parent.$parent.$parent.$ctrl.isOverlayFullView;
+        self.show = showOnResultsPage && !onFullView;;
         if(!showOnResultsPage){ return; }
 
-        // get the item from the component's parent controller
-        var obj = self.prmSearchResultAvailabilityLine.result.pnx.addata;
-        if (debug) {console.log("addata" + obj)}
         try{
           // obtain doi and open access information from the item PNX (metadata)
-          if(obj){
-            this.doi = obj.hasOwnProperty("doi")? addata.doi[0] : null; //default to first doi (list)
-            if (debug) {console.log("doi: " + doi);}
-            this.is_oa = obj.hasOwnProperty("oa"); //true if property is present at all (regardless of value)
+          if(addata){
+            self.doi = addata.hasOwnProperty("doi")? addata.doi[0] : null; //default to first doi (list)
+            if (debug) {console.log("doi: " + self.doi);}
+            self.is_oa = addata.hasOwnProperty("oa"); //true if property is present at all (regardless of value)
           }
 
           // if there's a doi and it's not already open access, ask the oadoi.org for an OA link
           /* not use this.doi && !this.is_oa because articles with is_oa is true can require patrons sign in */ 
-          if(this.doi){
-            $http.get("https://api.oadoi.org/v2/"+this.doi+"?email="+oadoiOptions.email)
+          if(self.doi){
+            $http.get("https://api.oadoi.org/v2/"+self.doi+"?email="+oadoiOptions.email)
               .then(function(response){
                 // if there is a link, save it so it can be used in the template above
-                this.best_oa_link = (response.data.best_oa_location)? response.data.best_oa_location.url : "";
+                self.best_oa_link = (response.data.best_oa_location)? response.data.best_oa_location.url : "";
               }, function(error){
                 if(debug){
                   console.log(error);
@@ -246,27 +249,27 @@ angular
             console.log("error caught in oadoiResultsCtrl: " + e);
           }
         }
-      };
+      }
     },
+    // 
+    /*  Use oadoi-result other than oadoi-results because that's the same as the component you added within prmSearchResultAvailabilityLineAfter
+      The repetition will result in Angular JS putting more <oadoi-results> copies inside <oadoi-results> on loop instead of printing your Unpaywall link
+    */  
     template: `
-    <oadoi-results ng-if="$ctrl.show">
+    <oadoi-result ng-if="$ctrl.show">
       <div layout="flex" ng-if="$ctrl.best_oa_link" class="layout-row" style="margin-top: 5px;">
         <prm-icon icon-type="svg" svg-icon-set="action" icon-definition="ic_lock_open_24px"></prm-icon>
         <a class="arrow-link-button md-primoExplore-theme md-ink-ripple" style="margin-left: 3px; margin-top: 3px;"
            target="_blank" href="{{$ctrl.best_oa_link}}"><strong>Open Access(via Unpaywall)</strong></a>
         <prm-icon link-arrow icon-type="svg" svg-icon-set="primo-ui" icon-definition="chevron-right"></prm-icon>
       </div>
-      <div ng-if="$ctrl.debug" class="layout-row">
-        <table>
-          <tr><td><strong>doi</strong></td><td>{{$ctrl.doi}}</td></tr>
-          <tr><td><strong>is_OA</strong></td><td>{{$ctrl.is_oa}}</td>
-          <tr><td><strong>best_oa_link</strong></td><td>{{$ctrl.best_oa_link}}</td></tr>
-        </table>
-      </div>
-    </oadoi-results>`,
+    </oadoi-result>`,
   });
 
-  app.component('prmSearchResultAvailabilityLineAfter', { template: '<oadoiresults></oadoiresults><hathi-trust-availability></hathi-trust-availability>' });
+  /* Based on the HathiTrust availabilty developed by the Orbis Cascade Alliance's PCSG
+    https://www.orbiscascade.org/programs/systems/pcsg/primo-toolkit/hathitrust-availability/
+  */
+  app.component('prmSearchResultAvailabilityLineAfter', { template: '<hathi-trust-availability></hathi-trust-availability><oadoi-results></oadoi-results>' });
   app.value('hathiTrustAvailabilityOptions', {
     msg: 'Full Text Available at HathiTrust',
     hideOnline: false,
