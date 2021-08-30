@@ -128,7 +128,7 @@ app.component('prmBackToLibrarySearchButtonAfter', {
 app.constant('oadoiOptions', {
   "imagePath": "custom/OSU/img/oa_50.png",
   "email": "library.1search@oregonstate.edu",
-  "debug": true,
+  "debug": false,
   "showOnResultsPage": true
 });
 
@@ -271,7 +271,7 @@ angular
   */
   app.component('prmSearchResultAvailabilityLineAfter', { template: '<hathi-trust-availability></hathi-trust-availability><oadoi-results></oadoi-results>' });
   app.value('hathiTrustAvailabilityOptions', {
-    msg: 'Full Text Available at HathiTrust',
+    msg: 'Check for Full Text Availability at HathiTrust',
     hideOnline: false,
     hideIfJournal: false,
     ignoreCopyright: true,
