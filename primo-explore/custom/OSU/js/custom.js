@@ -118,11 +118,12 @@ addGTM(document)
 /* Add Emergency Banner, use <p>,<br/>,and <hr/> to separate messages like
   template: '<br><div id="covid-19"><p>Elsevier/ScienceDirect is experiencing widespread outages, and full-text access is not appearing for many publications at the moment.</p><hr/><p>Due to the impacts of COVID-19, Summit requesting for physical materials is no longer available but you can still sign in and request books via Interlibrary Loan. Please visit <a href="https://library.oregonstate.edu/reference">Ask a Librarian</a> for help.</p></div><br>',
 */
+/* Banner for Summit service, which restored in September 2021
 app.component('prmBackToLibrarySearchButtonAfter', {
   template: '<br><div id="covid-19"><p>Due to the impacts of COVID-19, Summit requesting for physical materials is no longer available but you can still sign in and request books via Interlibrary Loan. Please visit <a href="https://library.oregonstate.edu/reference">Ask a Librarian</a> for help.</p></div><br>',
   scope: {},
   bindings: { parentCtrl: '<' }
-});
+}); */
 
 //OADOI find open access articles
 app.constant('oadoiOptions', {

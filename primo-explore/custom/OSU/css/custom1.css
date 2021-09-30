@@ -141,8 +141,8 @@ prm-change-lang {
 display: none;
 }
 
-/* remove the Summit Institution section - go live March 2020*/
-prm-alma-more-inst{display:none!important;}
+/* remove the Summit Institution section - go live March 2020; restore in September 2021
+prm-alma-more-inst{display:none!important;} */
 
 /* Hide globe icon in Additional Main Menu options overlay */
 md-icon[aria-label="icon-earth"] {
@@ -249,6 +249,7 @@ span[data-field-selector="creationdate"]::before { content: "Publication date: "
 /* End Primo media queries */
 
 /* Start COVID19 Banner */
+/* Summit banner, which restored in September 2021
 #covid-19 {
   margin: 16px;
   padding: 8px;
@@ -262,7 +263,7 @@ span[data-field-selector="creationdate"]::before { content: "Publication date: "
 
 #covid-19 h2 {
   font-weight: bold;
-}
+} */
 /* End COVID19 Banner */
 
 /* Start Customization to "Sign In" screen accessed from within Primo - borrowed from U Portland, added 8-25-2020 */
@@ -344,3 +345,17 @@ md-dialog.light-on-dark-dialog md-list md-list-item.list-login .md-button:hover:
 }
 
 /* End Customization of Sign In screen */
+
+/* HathiTrust */
+span.umnHathiTrustLink {
+    margin-left: -5px;
+}
+  
+span.umnHathiTrustLink md-icon svg {
+    height: 1.2em;
+    filter: grayscale(100%);
+}
+  
+span.umnHathiTrustLink:hover md-icon svg {
+    filter: grayscale(0%);
+}
