@@ -1,0 +1,361 @@
+/* Begin Primo branding */
+body { font-family: Arial, sans-serif !important; font-size: 11pt !important; }
+
+prm-main-menu { font-size: 14pt; }
+
+prm-topbar .prm-primary-bg.prm-hue1, prm-browse-search-bar.prm-hue1, prm-journals-search-bar.prm-hue1, prm-search-bar.prm-hue1, prm-spinner.prm-hue1.overlay-cover.light-on-dark::after, prm-tags-search-bar.prm-hue1, prm-topbar .top-nav-bar, .prm-secondary-color, prm-topbar .top-nav-bar, html#primoExploreRoot body primo-explore.__lgPlus.__gt-xs.__gt-sm.__gt-md div prm-explore-main div.header.topbar-wrapper.relative-position.layout-column prm-topbar div.top-nav-bar.layout-row prm-user-area md-fab-toolbar.hide-xs._md-animations-ready.md-fab-toolbar.md-left.md-is-open div._md-fab-toolbar-wrapper div._md-fab-toolbar-content md-fab-trigger.align-with-text.show-user-info { background-color: #dc4405; }
+
+prm-topbar .md-toolbar-tools { background-color: #dc4405; }
+
+prm-topbar .isDeposit, prm-topbar .isServicePage, prm-topbar .isSummonOverAlma {
+   display: inline;
+}
+
+div.md-fab-action-item { font-weight: bold; color: white; }
+
+.prm-primary-bg, prm-browse-search-bar, prm-journals-search-bar, prm-search-bar, prm-spinner.overlay-cover.light-on-dark::after, prm-tags-search-bar { background-color: #000; }
+
+prm-main-menu[menu-type="menu"] .md-button {
+    text-transform: none;
+}
+
+.md-button.button-confirm, .service-form-static-panel button.button-confirm prm-icon + span, .service-form-static-panel button.button-confirm prm-icon svg path { color: black; }
+
+prm-atoz-search-bar { background-color: black !important; }
+
+.view-switcher > a:nth-child(1) { display: none; }
+
+.switch-to-advanced, button.switch-to-simple:nth-child(1) { font-size: 110%; /*font-weight: bold;*/ }
+
+button.user-menu-button:nth-child(2) > div:nth-child(1) > span:nth-child(1), #main\ menu a { color: white; }
+
+prm-logo .product-logo { padding: 0; }
+
+md-tab-item.md-tab:nth-child(3) { display: none; }
+
+span[translate="mainmenu.label.interlibrary_loan"] { max-width: none; }
+
+.WC_hide { display:none; }
+
+button.user-menu-button:nth-child(2) > div:nth-child(1) > span:nth-child(1) {font-size: 110%; }
+
+div.chat {
+    text-decoration: none;
+    padding: .5em;
+    border-radius: 4px;
+    display: inline-block;
+    font-size: 110%;
+    border-radius: 8px !important;
+    border: 2px solid #ffffff !important;
+    margin: 0 .5em;
+}
+
+div.chat a { color: white !important; }
+
+div.chat a:hover { text-decoration: none; color: white !important; }
+
+[class*=does_not_exist] {
+    color: #e08303 !important;
+}
+
+prm-main-menu[menu-type="full"] div.custom-links-container > md-card:last-child {
+    display:none;
+}
+
+html#primoExploreRoot body primo-explore.__lgPlus.__gt-xs.__gt-sm.__gt-md div prm-account md-content.padded-container.layout-fill._md.md-primoExplore-theme.layout-align-center-start.layout-row div.main.layout-row.flex prm-account-overview.layout-fill md-content#accountoverview._md.md-primoExplore-theme.flex md-tabs.static-tabs.default-tabs.md-dynamic-height.md-primoExplore-theme md-tabs-content-wrapper._md md-tab-content#tab-content-7._md.md-no-scroll.md-active div div.layout-row prm-personal-info.flex div.layout-wrap.layout-align-center-start.layout-row md-card.default-card._md.md-primoExplore-theme.flex-xs-100.flex-sm-100 {
+    display: none;
+}
+
+span[translate="nui.loan.due"] {
+    color: black;
+    font-weight: bold;
+}
+
+.weak-text { color: #545454; }
+
+#main\20 menu > a:nth-child(2) > span {
+    max-width: inherit;
+}
+
+prm-brief-result-container .media-content-type prm-search-result-frbr-line > span {
+    font-weight: 600 !important;
+}
+
+prm-brief-result-container .media-content-type prm-search-result-frbr-line a span {
+    background-color: #dc4405;
+    padding: 0px 3px;
+    color: white;
+    border-radius: 5px;
+    border: 1px solid #dc4405;
+    text-transform: none;
+}
+
+.multiselect-facet-group.multiselect-inactive
+.md-chip, md-checkbox,
+.multiselect-facet-group.multiselect-inactive
+.md-chip, md-checkbox,
+.multiselect-facet-group.multiselect-inactive
+.md-chip md-checkbox,
+.section-content .md-chips .md-chip .md-chip-remove-container .md-button {
+    opacity: 1;
+    visibility: visible;
+    z-index: 100;
+    transform: scaleX(1);
+    transition: all 0s 0s;
+}
+
+md-input-container {
+    padding: 0 !important;
+}
+/* End Primo branding */
+/* Begin Primo fixes */
+
+/* Hide Tags in Detailed Display */
+[aria-label="Tags"] { display:none; }
+#tags { display:none; }
+
+/* Hide Tags in Menu Tab */
+a.md-button[aria-label="Tags"] { display:none; }
+a.md-button[aria-label="nui.mainmenu.label.tags"] { display:none; }
+
+/* Hide Search History menu item */
+md-menu-item.my-search-history-ctm { display: none; }
+
+/* Fix -> arrow placement next to "Menu" 9/17/18 */
+.md-button.button-with-menu-arrow .menu-arrow:after{
+    display:inline-block;
+    top:0;
+}
+
+/* Fix sizing of resource icons in IE */
+div.result-item-image > div.media-content-images {
+    max-height: 60px;
+}
+
+.saved-query-list > md-nav-bar .md-nav-item, prm-action-list > md-nav-bar .md-nav-item {
+    max-width: none;
+}
+
+/* Hide Language option in Additional Main Menu options overlay */
+prm-change-lang {
+display: none;
+}
+
+/* remove the Summit Institution section - go live March 2020; restore in September 2021
+prm-alma-more-inst{display:none!important;} */
+
+/* Hide globe icon in Additional Main Menu options overlay */
+md-icon[aria-label="icon-earth"] {
+display: none;
+}
+
+/* Hide interface language selector in My Account/My Library Card - FIX*/
+html#primoExploreRoot body primo-explore.__lgPlus.__gt-xs.__gt-sm.__gt-md div prm-account md-content.padded-container.layout-fill._md.md-primoExplore-theme.layout-align-center-start.layout-row div.main.layout-row.flex prm-account-overview.layout-fill md-content#accountoverview._md.md-primoExplore-theme.flex md-tabs.static-tabs.default-tabs.md-dynamic-height.md-primoExplore-theme md-tabs-content-wrapper._md md-tab-content#tab-content-5._md.md-no-scroll.md-active div div.layout-row prm-personal-info.flex div.layout-wrap.layout-align-center-start.layout-row md-card.default-card._md.md-primoExplore-theme.flex-xs-100.flex-sm-100 {
+    display: none;
+}
+
+/* Corrects "floating" facet text */
+#facets > prm-facet > div { z-index: 0 !important; }
+
+/* Corrects index link on full record pages */
+#services-index button { white-space: normal; border: 1px solid lightgrey; margin-bottom: 3px !important; text-transform: none; line-height: 1.5em; width: 100%; max-width: 95%; }
+
+prm-recomendations md-icon, prm-recomendations prm-icon { display: none; }
+
+/*Prefix publication dates with "Publication date: "*/
+span[data-field-selector="creationdate"] { display: block; }
+span[data-field-selector="creationdate"]::before { content: "Publication date: "; }
+
+/* End Primo fixes */
+/* Begin Primo media queries */
+
+/* Small screen/phone styles */
+@media (max-width: 600px)
+{
+
+}
+
+/* Tablet styles */
+@media (max-width: 959px) and (min-width: 601px)
+{
+    prm-facet { width: 100%; }
+    .flex-lg-10, .layout-lg-row > .flex-lg-10, .layout-row > .flex-lg-10 { max-width: 5%; }
+    .flex-lg-20, .layout-lg-row > .flex-lg-20, .layout-row > .flex-lg-20 { max-width: 28%; }
+    .flex-lg-5, .layout-lg-row > .flex-lg-5, .layout-row > .flex-lg-5 { max-width: 0; }
+    prm-user-area { flex: 0 !important; }
+    button.switch-to-advanced { max-width: 100%; }
+}
+
+/* Netbook/Laptop styles */
+@media (max-width: 1280px) and (min-width: 960px)
+{
+    h3.section-title-header { font-size: 1rem !important; }
+    #facets { padding-left: 2px; }
+    strong.facet-title { overflow: visible !important; }
+    .flex-lg-10, .layout-lg-row > .flex-lg-10, .layout-row > .flex-lg-10 { max-width: 5%; }
+    .flex-lg-20, .layout-lg-row > .flex-lg-20, .layout-row > .flex-lg-20 { max-width: 28%; }
+    .flex-lg-5, .layout-lg-row > .flex-lg-5, .layout-row > .flex-lg-5 { max-width: 0; }
+    .flex-lg-65, .layout-lg-row>.flex-lg-65, .layout-row>.flex-lg-65 { max-width: 70%; }
+
+}
+
+/* Medium screens - laptops, small desktops */
+@media (max-width: 1599px) and (min-width: 1281px)
+{
+    .flex-lg-10, .layout-lg-row > .flex-lg-10, .layout-row > .flex-lg-10 { max-width: 5%; }
+    .flex-lg-20, .layout-lg-row > .flex-lg-20, .layout-row > .flex-lg-20 { max-width: 25%; }
+    .flex-lg-5, .layout-lg-row > .flex-lg-5, .layout-row > .flex-lg-5 { max-width: 0; }
+    .md-chips .md-chip .md-chip-content strong { overflow: visible; }
+    prm-static { margin-left: 5%; }
+    prm-search-bar { padding-left: 5% }
+}
+
+/* Large screens */
+@media (max-width: 1919px) and (min-width: 1600px)
+{
+    .flex-lg-10, .layout-lg-row > .flex-lg-10, .layout-row > .flex-lg-10 { max-width: 5%; }
+    .flex-lg-20, .layout-lg-row > .flex-lg-20, .layout-row > .flex-lg-20 { max-width: 25%; }
+    .flex-lg-5, .layout-lg-row > .flex-lg-5, .layout-row > .flex-lg-5 { max-width: 0; }
+    prm-static { margin-left: 10%; }
+}
+
+/* Very large desktop screens */
+@media (min-width: 1920px)
+{
+    body, #mainMenu a.flex-button {  font-size: 12pt !important; }
+    .flex-lg-10, .layout-lg-row > .flex-lg-10, .layout-row > .flex-lg-10 { max-width: 5%; }
+    .flex-lg-20, .layout-lg-row > .flex-lg-20, .layout-row > .flex-lg-20 { max-width: 25%; }
+    .flex-lg-5, .layout-lg-row > .flex-lg-5, .layout-row > .flex-lg-5 { max-width: 0; }
+    .flex-xl-50, .layout-row > .flex-xl-50, .layout-xl-row > .flex-xl-50 { max-width: 100%; }
+    prm-static { margin-left: 10% }
+}
+
+/* Print styles */
+@media print
+{
+    .sidebar { display:none; }
+    prm-page-nav-menu { display:none; }
+    .bottom-fixed-toolbar { display:none; }
+    #fixed-buttons-holder { display:none; }
+    prm-search-bar { display:none; }
+    .header.topbar-wrapper { display:none; }
+    .flex-order-4.flex-lg-15.flex-xl-25.flex-xl-10.flex-md-0.flex-lg-5.flex-0 { display:none; }
+    .button-confirm[translate="nui.brief.results.loadMore"] { display:none; }
+    .list-spacer { display:none; }
+    .md-subheader { display:none; }
+    prm-alert-bar { display: none; }
+    #mainResults > div.results-title.layout-align-start-center.layout-row { display: none; }
+}
+/* End Primo media queries */
+
+/* Start COVID19 Banner */
+/* Summit banner, which restored in September 2021
+#covid-19 {
+  margin: 16px;
+  padding: 8px;
+  font-size: 1.5em;
+  font-weight: bold;
+  border: 1px solid grey;
+  background: #fffcc4;
+  color: black;
+  text-align: center;
+}
+
+#covid-19 h2 {
+  font-weight: bold;
+} */
+/* End COVID19 Banner */
+
+/* Start Customization to "Sign In" screen accessed from within Primo - borrowed from U Portland, added 8-25-2020 */
+/* Opacity control for the sign in area */
+.backdrop-dark md-backdrop.md-opaque, .background-dark md-backdrop.md-opaque {
+    opacity: 0.97;
+}
+
+/* Cancel Button */
+.light-on-dark-dialog .md-button {
+    color: #000;
+}
+
+/* white backgorund and black text Dialog Box Background */
+md-dialog.light-on-dark-dialog {
+    background-color: #fff;
+    color: #000;
+    border: 7px solid #5e6a71;
+    border-radius: 30px;
+}
+
+md-dialog. md-headline light-text .h2 {
+color: #000;
+}
+
+/* login selections */
+md-dialog.light-on-dark-dialog .md-list[class$=-line] md-list-item .md-list-item-text .list-item-title, md-dialog.light-on-dark-dialog .md-list[class$=-line] md-list-item .md-list-item-text h3, md-dialog.light-on-dark-dialog .md-list[class$=-line] md-list-item>.md-no-style .md-list-item-text .list-item-title, md-dialog.light-on-dark-dialog .md-list[class$=-line] md-list-item>.md-no-style .md-list-item-text h3, md-dialog.light-on-dark-dialog .md-list md-list-item .md-list-item-text .list-item-title, md-dialog.light-on-dark-dialog .md-list md-list-item .md-list-item-text h3, md-dialog.light-on-dark-dialog .md-list md-list-item>.md-no-style .md-list-item-text .list-item-title, md-dialog.light-on-dark-dialog .md-list md-list-item>.md-no-style .md-list-item-text h3, md-dialog.light-on-dark-dialog md-list md-list-item .md-list-item-text .list-item-title, md-dialog.light-on-dark-dialog md-list md-list-item .md-list-item-text h3, md-dialog.light-on-dark-dialog md-list md-list-item>.md-no-style .md-list-item-text .list-item-title, md-dialog.light-on-dark-dialog md-list md-list-item>.md-no-style .md-list-item-text h3 {
+color: red;
+text-decoration: underline;
+}
+
+/* Login description */
+md-list-item.md-2-line .md-list-item-text p, md-list-item.md-2-line>._md-no-style .md-list-item-text p, md-list-item.md-3-line .md-list-item-text p, md-list-item.md-3-line>._md-no-style .md-list-item-text p {
+color: #000;
+}
+
+/* username and password fields */
+md-dialog.light-on-dark-dialog md-input-container .md-input, md-dialog.light-on-dark-dialog md-input-container.md-input-focused .md-input, md-dialog.light-on-dark-dialog md-input-container.md-input-focused:not(.md-input-invalid) .md-input, md-dialog.light-on-dark-dialog md-input-container.md-input-focused:not(.md-input-invalid) input, md-dialog.light-on-dark-dialog md-input-container.md-input-focused:not(.md-input-invalid) label, md-dialog.light-on-dark-dialog md-input-container.md-input-focused input, md-dialog.light-on-dark-dialog md-input-container.md-input-focused label, md-dialog.light-on-dark-dialog md-input-container.md-input-has-value .md-input, md-dialog.light-on-dark-dialog md-input-container.md-input-has-value input, md-dialog.light-on-dark-dialog md-input-container.md-input-has-value label, md-dialog.light-on-dark-dialog md-input-container input, md-dialog.light-on-dark-dialog md-input-container label {
+    border-color: black;
+    color: black;
+}
+
+/* background text in password fields */
+.light-on-dark-dialog md-input-container label:not(.md-no-float):not(._md-container-ignore) {
+    color: #000;
+}
+
+/* Login color button on username & password page */
+.light-on-dark-dialog .md-button.button-confirm, .light-on-dark-dialog .service-form-static-panel button.button-confirm prm-icon+span, .light-on-dark-dialog .service-form-static-panel button.button-confirm prm-icon svg path, .service-form-static-panel button.button-confirm .light-on-dark-dialog prm-icon+span, .service-form-static-panel button.button-confirm prm-icon svg .light-on-dark-dialog path {
+    color: #000;
+}
+
+.light-on-dark-dialog .md-button._md-focused:not([disabled]), .light-on-dark-dialog .md-button.hovered:not([disabled]), .light-on-dark-dialog .md-button.md-focused:not([disabled]), .light-on-dark-dialog .md-button:focus:not([disabled]), .light-on-dark-dialog .md-button:hover:not([disabled]) {
+    color: grey;
+    background-color: hsla(0,0%,100%,.08);
+}
+
+/* Sign in choices color above the description */
+md-dialog.light-on-dark-dialog .md-list[class$=-line] md-list-item .md-list-item-text .list-item-title, md-dialog.light-on-dark-dialog .md-list[class$=-line] md-list-item .md-list-item-text h3, md-dialog.light-on-dark-dialog .md-list[class$=-line] md-list-item>.md-no-style .md-list-item-text .list-item-title, md-dialog.light-on-dark-dialog .md-list[class$=-line] md-list-item>.md-no-style .md-list-item-text h3, md-dialog.light-on-dark-dialog .md-list md-list-item .md-list-item-text .list-item-title, md-dialog.light-on-dark-dialog .md-list md-list-item .md-list-item-text h3, md-dialog.light-on-dark-dialog .md-list md-list-item>.md-no-style .md-list-item-text .list-item-title, md-dialog.light-on-dark-dialog .md-list md-list-item>.md-no-style .md-list-item-text h3, md-dialog.light-on-dark-dialog md-list md-list-item .md-list-item-text .list-item-title, md-dialog.light-on-dark-dialog md-list md-list-item .md-list-item-text h3, md-dialog.light-on-dark-dialog md-list md-list-item>.md-no-style .md-list-item-text .list-item-title, md-dialog.light-on-dark-dialog md-list md-list-item>.md-no-style .md-list-item-text h3 {
+    color: red;
+}
+
+/* Make headings (e.g. "OSU Students, Faculty, and Staff" bold */
+.login-dialog md-list md-list-item .md-list-item-text .list-item-title, md-list-item.list-item-as-link {
+    color: red;
+    font-size:  1.5em;
+    font-weight:  500;
+}
+
+/* Add after Primo 2020 November release to make text easier to read */
+md-dialog.light-on-dark-dialog .md-list[class$=-line] md-list-item.list-login .md-button, md-dialog.light-on-dark-dialog .md-list md-list-item.list-login .md-button, md-dialog.light-on-dark-dialog md-list md-list-item.list-login .md-button {
+    color: black;
+}
+
+/* Change highlight color from inherit to blue for easier to read */
+md-dialog.light-on-dark-dialog md-list md-list-item.list-login .md-button:hover:not([disabled]) {
+    background-color: transparent;
+    color: blue;
+}
+
+/* End Customization of Sign In screen */
+
+/* HathiTrust */
+span.umnHathiTrustLink {
+    margin-left: -5px;
+}
+  
+span.umnHathiTrustLink md-icon svg {
+    height: 1.2em;
+    filter: grayscale(100%);
+}
+  
+span.umnHathiTrustLink:hover md-icon svg {
+    filter: grayscale(0%);
+}
