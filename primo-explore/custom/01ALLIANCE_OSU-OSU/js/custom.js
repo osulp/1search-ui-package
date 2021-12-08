@@ -127,7 +127,7 @@ app.component('prmBackToLibrarySearchButtonAfter', {
 
 //OADOI find open access articles
 app.constant('oadoiOptions', {
-  "imagePath": "custom/OSU/img/oa_50.png",
+  "imagePath": "custom/01ALLIANCE_OSU-OSU/img/oa_50.png",
   "email": "library.1search@oregonstate.edu",
   "debug": false,
   "showOnResultsPage": true
