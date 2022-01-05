@@ -1,13 +1,13 @@
 (function(){
 "use strict";
 
-/************************************* BEGIN Bootstrap Script ************************************/
-/* We are a CENTRAL_PACKAGE, so use the below line to bootstrap the module */
+/**********************************************************************************************************************/
+/* Use the below line to bootstrap the module */
 /* var app = angular.module('viewCustom', ['angularLoad','toggleInstitutions','reportProblem']); */
 
-/*In case of CENTRAL_PACKAGE - comment out the below line to replace the other module definition*/
+/*CENTRAL_PACKAGE - comment out the below line to replace the other module definition*/
 /*var app = angular.module('centralCustom', ['angularLoad']);*/
-/************************************* END Bootstrap Script ************************************/
+/**********************************************************************************************************************/
 
 var app = angular.module('viewCustom', ['angularLoad', 'oadoi', 'oadoiResults','hathiTrustAvailability', 'reportProblem']);
 
