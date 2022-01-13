@@ -7,9 +7,12 @@
 
 /*CENTRAL_PACKAGE - comment out the below line to replace the other module definition*/
 /*var app = angular.module('centralCustom', ['angularLoad']);*/
+
+/* To load customized oadoi to local view */
+/* var app = angular.module('viewCustom', ['angularLoad', 'oadoi', 'oadoiResults','hathiTrustAvailability', 'reportProblem']); */
 /**********************************************************************************************************************/
 
-var app = angular.module('viewCustom', ['angularLoad', 'availabilityCounts','hathiTrustAvailability']);
+var app = angular.module('viewCustom', ['angularLoad', 'availabilityCounts','hathiTrustAvailability', 'reportProblem']);
 
 /* Add Google Scholar and Worldcat search in facet pane */
 app.component('prmFacetExactAfter', {

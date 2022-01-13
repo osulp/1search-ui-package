@@ -1196,6 +1196,6 @@ angular
     },
     template: '<span ng-if="$ctrl.isAvailFacet()" style="padding-left:1em;">* Counts are approximate. Results may differ.</span>'
   });
-  //* End Availability Counts *//
+//* End Availability Counts *//
 
 })();
