@@ -16,6 +16,7 @@
 *   Force Login (Added 20201022)
 *   eShelf Links (Added 20201103)
 *   Hathi Trust Availability (Added 20210212)
+*   Show Availability Counts (Added 20220112)
 */
 
 
@@ -1144,5 +1145,57 @@ angular.module('externalSearch', [])
         });
     //* End Hathi Trust Availability *//
 
+/* Show counts of availability counts */
+angular
+  .module('availabilityCounts', [])
+  .component('availabilityCounts', {
+    controller: function ($scope) {
+      
+      var avail_group = 'tlevel';
+      
+      this.$onInit = function() {
+        var parent_ctrl = $scope.$parent.$parent.$ctrl;
+        this.facet_group = parent_ctrl.facetGroup.name;
+        if (this.facet_group == avail_group) {
+          var self = this;
+          angular.forEach(parent_ctrl.facetService.results, function(result) {
+            if (result.name == avail_group) {
+              var first_value = result.values[0].value;
+              var interval = setInterval(find_facet, 100);
+              function find_facet() {
+                if (document.querySelector(self.getSelector(first_value))) {
+                  angular.forEach(result.values, function(facet) {
+                    var selector = self.getSelector(facet.value);
+                    if (document.querySelector(selector)) {
+                      var facet_item = document.querySelector(selector);
+                      if (facet_item.querySelector('.facet-counter') == null) {
+                        var facet_text = facet_item.querySelector('.text-number-space'); 
+                        var span = document.createElement('span');
+                        var count = document.createTextNode(facet.count.replace(/\B(?=(\d{3})+(?!\d))/g, ',') + '*');
+                        span.setAttribute('class', 'text-italic text-in-brackets text-rtl facet-counter');
+                        span.appendChild(count);
+                        facet_text.after(span);
+                      }
+                    }
+                  });
+                  clearInterval(interval);
+                }
+              };
+            }
+          });
+        }
+      }
+      
+      this.getSelector = function(value) {
+        return 'div[data-facet-value="' + avail_group + '-' + value + '"]';
+      }
+      
+      this.isAvailFacet = function () {
+        return (this.facet_group == avail_group);
+      }
+    },
+    template: '<span ng-if="$ctrl.isAvailFacet()" style="padding-left:1em;">* Counts are approximate. Results may differ.</span>'
+  });
+  //* End Availability Counts *//
 
 })();

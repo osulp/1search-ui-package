@@ -9,7 +9,7 @@
 /*var app = angular.module('centralCustom', ['angularLoad']);*/
 /**********************************************************************************************************************/
 
-var app = angular.module('viewCustom', ['angularLoad', 'oadoi', 'oadoiResults','hathiTrustAvailability', 'reportProblem']);
+var app = angular.module('viewCustom', ['angularLoad', 'availabilityCounts','hathiTrustAvailability']);
 
 /* Add Google Scholar and Worldcat search in facet pane */
 app.component('prmFacetExactAfter', {
@@ -285,6 +285,9 @@ angular
     ignoreCopyright: true,
     entityId: 'https://login.oregonstate.edu/idp/shibboleth'
    });
+
+/* Show availability counts */
+app.component('prmFacetExactAfter', {template: '<availability-counts />'});
 
 ga('create', 'UA-35760875-20');
 ga('send', 'pageview');
