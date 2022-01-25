@@ -12,7 +12,7 @@
 /* var app = angular.module('viewCustom', ['angularLoad', 'oadoi', 'oadoiResults','hathiTrustAvailability', 'reportProblem']); */
 /**********************************************************************************************************************/
 
-var app = angular.module('viewCustom', ['angularLoad', 'externalSearch', 'availabilityCounts', 'reportProblem', 'hathiTrustAvailability']);
+var app = angular.module('viewCustom', ['angularLoad', 'reportProblem', 'externalSearch', 'hathiTrustAvailability', 'availabilityCounts']);
 
 /* Add Google Scholar and Worldcat external search in facet pane */
 /* PCSG External Search -- https://github.com/alliance-pcsg/primo-explore-external-search */
@@ -68,7 +68,7 @@ angular.module('externalSearch', []).value('searchTargets', []).component('prmFa
 });
 app.value('searchTargets', [{
   "name": "Worldcat",
-  "url": "https://oregonstate.on.worldcat.org/search?",
+  "url": "https://OregonStateUniversityLibraries.on.worldcat.org/search?",
   "img": "https://raw.githubusercontent.com/alliance-pcsg/primo-explore-external-search/master/worldcat-logo.png",
   "alt": "Worldcat Logo",
   mapping: function mapping(queries, filters) {
@@ -362,6 +362,10 @@ angular
     hideIfJournal: false,
     ignoreCopyright: true,
     entityId: 'https://login.oregonstate.edu/idp/shibboleth'
+   });
+
+   app.value('availabilityCountsOptions', {
+     msg: 'Another warning message for testing'
    });
 
 ga('create', 'UA-35760875-20');

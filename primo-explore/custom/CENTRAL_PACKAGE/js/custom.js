@@ -16,7 +16,6 @@
 *   Force Login (Added 20201022)
 *   eShelf Links (Added 20201103)
 *   Hathi Trust Availability (Added 20210212)
-*   Show Availability Counts (Added 20220112)
 */
 
 
@@ -1145,25 +1144,40 @@ angular.module('externalSearch', [])
         });
     //* End Hathi Trust Availability *//
 
-/* Show counts of availability counts */
-angular
-  .module('availabilityCounts', [])
-  .component('availabilityCounts', {
-    controller: function ($scope) {
-      
-      var avail_group = 'tlevel';
-      
-      this.$onInit = function() {
-        var parent_ctrl = $scope.$parent.$parent.$ctrl;
-        this.facet_group = parent_ctrl.facetGroup.name;
-        if (this.facet_group == avail_group) {
+  /* Add count to availability facet */
+  angular
+    .module('availabilityCounts', [])
+    .component('availabilityCounts', {
+      controller: function ($scope, availabilityCountsOptions) {
+        
+        var avail_group = 'tlevel';
+        
+        this.$onInit = function() {
+          var parent_ctrl = $scope.$parent.$parent.$ctrl;
+          this.facet_group = parent_ctrl.facetGroup.name;
+          this.facet_results = parent_ctrl.facetService.results;
+          if (this.facet_group == avail_group) {
+            this.processFacets();
+          }
+          // copy options from local package or central package defaults
+          this.msg = availabilityCountsOptions.msg;
+        }
+        
+        this.processFacets = function() {
           var self = this;
-          angular.forEach(parent_ctrl.facetService.results, function(result) {
+          if (!self.msg) self.msg = '* Counts are approximate. Results may differ.';
+
+          angular.forEach(self.facet_results, function(result) {
             if (result.name == avail_group) {
               var first_value = result.values[0].value;
               var interval = setInterval(find_facet, 100);
               function find_facet() {
                 if (document.querySelector(self.getSelector(first_value))) {
+                  
+                  // Clear interval
+                  clearInterval(interval);
+                  
+                  // Add availability counts as spans
                   angular.forEach(result.values, function(facet) {
                     var selector = self.getSelector(facet.value);
                     if (document.querySelector(selector)) {
@@ -1178,24 +1192,42 @@ angular
                       }
                     }
                   });
-                  clearInterval(interval);
-                }
-              };
-            }
+                  
+                  // Facets are created and destroyed in the DOM when the group is toggled so watch for clicks
+                  var availGroup = document.querySelector(self.getSelector(avail_group));
+                  availGroup.addEventListener('click', function() {
+                    self.processFacets();
+                  });
+                  
+                  // Add warning text
+                  if (!availGroup.querySelector('.section-content .warning')) {
+                    var warning = document.createElement('span');
+                    var warningText = document.createTextNode(self.msg);
+                    warning.setAttribute('class', 'warning');
+                    warning.appendChild(warningText);
+                    availGroup.querySelector('.section-content').appendChild(warning);
+                  }
+                } 
+              }
+            }               
           });
         }
+        
+        this.getSelector = function(value) {
+          if (value == avail_group) {
+            return 'div[data-facet-group="' + avail_group + '"]';
+          }
+          else {
+            return 'div[data-facet-value="' + avail_group + '-' + value + '"]';
+          }
+        }
+        
       }
-      
-      this.getSelector = function(value) {
-        return 'div[data-facet-value="' + avail_group + '-' + value + '"]';
-      }
-      
-      this.isAvailFacet = function () {
-        return (this.facet_group == avail_group);
-      }
-    },
-    template: '<span ng-if="$ctrl.isAvailFacet()" style="padding-left:1em;">* Counts are approximate. Results may differ.</span>'
-  });
-//* End Availability Counts *//
+    })
+    // Set default values for options
+    .value('availabilityCountsOptions', {
+        msg: '* Counts are approximate. Results may differ.'
+      });
+  //* End availability counts *//
 
 })();
