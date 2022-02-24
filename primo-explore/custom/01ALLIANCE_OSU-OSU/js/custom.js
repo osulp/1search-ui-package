@@ -17,7 +17,69 @@ var app = angular.module('viewCustom', ['angularLoad', 'reportProblem', 'externa
 /* Add Google Scholar and Worldcat external search in facet pane */
 /* PCSG External Search -- https://github.com/alliance-pcsg/primo-explore-external-search */
 /* PCSG Availabiliy count (Primo VE) -- both externalSearch and availabilityCounts modules must in the same template because they use the same component prmFacetExactAfter */
-angular.module('externalSearch', []).value('searchTargets', []).component('prmFacetAfter', {
+app
+.component('prmFacetAfter', {template: '<external-search-facet />'})
+.component('prmPageNavMenuAfter', {template: '<external-search-pagenav />' })
+.component('prmFacetExactAfter', {template: '<external-search-contents></external-search-contents><availability-counts></availability-counts>' });
+
+app.value('externalSearchOptions', {
+  facetName: '[External Search]',
+  searchTargets: [
+  { // WorldCat
+    "name": "Worldcat",
+    "url": "https://OregonStateUniversityLibraries.on.worldcat.org/search?queryString=",
+    "img": "https://raw.githubusercontent.com/alliance-pcsg/primo-explore-external-search/master/worldcat-logo.png",
+    "alt": "Worldcat Logo",
+    mapping: function mapping(queries, filters) {
+      var query_mappings = {
+        'any': 'kw',
+        'title': 'ti',
+        'creator': 'au',
+        'subject': 'su',
+        'isbn': 'bn',
+        'issn': 'n2'
+      };
+      try {
+        return 'queryString=' + queries.map(function (part) {
+          var terms = part.split(',');
+          var type = query_mappings[terms[0]] || 'kw';
+          var string = terms[2] || '';
+          var join = terms[3] || '';
+          return type + ':' + string + ' ' + join + ' ';
+        }).join('');
+      }
+      catch (e) { 
+        return '';
+      }
+    }
+  },
+  { // Google Scholar
+    "name": "Google Scholar",
+    "url": "https://scholar.google.com/scholar?q=",
+    "img": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Google_%22G%22_Logo.svg/200px-Google_%22G%22_Logo.svg.png",
+    "alt": "Google Scholar Logo",
+    mapping: function mapping(queries, filters) {
+      try {
+        return queries.map(function (part) {
+          return part.split(",")[2] || "";
+        }).join(' ');
+      }
+      catch (e) {
+        return '';
+      }
+    }
+  }]
+});
+
+app.value('availabilityCountsOptions', {
+  msg: 'Another warning message for testing'
+});
+
+
+
+
+
+/*angular.module('externalSearch', []).value('searchTargets', []).component('prmFacetAfter', {
   bindings: { parentCtrl: '<' },
   controller: ['externalSearchService', function (externalSearchService) {
     externalSearchService.controller = this.parentCtrl;
@@ -106,7 +168,11 @@ app.value('searchTargets', [{
       return '';
     }
   }
-}]);
+}]); */
+
+
+
+
 
 /* Toggle institutions for Primo VE */
 app.component("prmAlmaOtherMembersAfter", {
@@ -362,10 +428,6 @@ angular
     hideIfJournal: false,
     ignoreCopyright: true,
     entityId: 'https://login.oregonstate.edu/idp/shibboleth'
-   });
-
-   app.value('availabilityCountsOptions', {
-     msg: 'Another warning message for testing'
    });
 
 ga('create', 'UA-35760875-20');
