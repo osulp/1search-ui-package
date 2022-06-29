@@ -40,7 +40,7 @@ app.value('externalSearchOptions', {
         'issn': 'n2'
       };
       try {
-        return 'queryString=' + queries.map(function (part) {
+        return queries.map(function (part) {
           var terms = part.split(',');
           var type = query_mappings[terms[0]] || 'kw';
           var string = terms[2] || '';
