@@ -249,7 +249,8 @@ span[data-field-selector="creationdate"]::before { content: "Publication date: "
 /* End Primo media queries */
 
 /* Start COVID19 Banner */
-/* Summit banner, which restored in September 2021
+/* Summit banner, which restored in September 2021 */
+/* Use for survey link, 2022 */
 #covid-19 {
   margin: 16px;
   padding: 8px;
@@ -263,7 +264,11 @@ span[data-field-selector="creationdate"]::before { content: "Publication date: "
 
 #covid-19 h2 {
   font-weight: bold;
-} */
+} 
+
+#covid-19 a {
+    color: #00859B;
+}
 /* End COVID19 Banner */
 
 /* Start Customization to "Sign In" screen accessed from within Primo - borrowed from U Portland, added 8-25-2020 */

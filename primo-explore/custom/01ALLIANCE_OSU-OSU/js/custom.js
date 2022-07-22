@@ -176,6 +176,12 @@ app.component('prmBackToLibrarySearchButtonAfter', {
   scope: {},
   bindings: { parentCtrl: '<' }
 }); */
+/* Banner for library service survey, added in July 2022 */
+app.component('prmBackToLibrarySearchButtonAfter', {
+  template: '<br><div id="covid-19"><p>Please <a href="https://survey.alchemer.com/s3/6948872/OSU-Online-Resources-Survey-2022-static">help us learn about your library usage</a> by taking a brief survey. All responses are anonymous.</p></div><br>',
+  scope: {},
+  bindings: { parentCtrl: '<' }
+});
 
 /* OADOI find open access articles */
 app.constant('oadoiOptions', {
