@@ -137,7 +137,9 @@ app.component('prmSearchBarAfter', {
 });
 app.controller('SearchBarAfterController', ['angularLoad', function (angularLoad) {
     var vm = this;
-    vm.parentCtrl.showTabsAndScopes = true;
+    this.$onInit = function() {
+      vm.parentCtrl.showTabsAndScopes = true;
+    }
 }]);
 
 /* Google Analytics */
