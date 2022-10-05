@@ -48,7 +48,7 @@ app.value('externalSearchOptions', {
           return type + ':' + string + ' ' + join + ' ';
         }).join('');
       }
-      catch (e) { 
+      catch (e) {
         return '';
       }
     }
@@ -78,15 +78,15 @@ app.value('externalSearchOptions', {
 /* Toggle institutions for Primo VE */
 app.component("prmAlmaOtherMembersAfter", {
   bindings: {
-  parentCtrl: "<",
+    parentCtrl: "<",
   },
-  controller: [
-  function () {
-  var ctrl = this;
-  ctrl.parentCtrl.isCollapsed = true;
+  controller: function controller() {
+    var ctrl = this;
+    this.$onInit = function () {
+      ctrl.parentCtrl.isCollapsed = true;
+    };
   },
-  ],
- });
+});
 
 /* Add link to ILL in My Account */
 app.component('prmLoansOverviewAfter', {
@@ -165,7 +165,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   const noscriptText = `<iframe src="//www.googletagmanager.com/ns.html?id=${gtmId}"
 height="0" width="0" style="display:none;visibility:hidden"></iframe>`
   noscript.innerHTML = noscriptText
-  doc.body.insertBefore(noscript, doc.body.firstChild) 
+  doc.body.insertBefore(noscript, doc.body.firstChild)
 }
 addGTM(document)
 
@@ -179,11 +179,11 @@ app.component('prmBackToLibrarySearchButtonAfter', {
   bindings: { parentCtrl: '<' }
 }); */
 /* Banner for library service survey, added in July 2022 */
-/*app.component('prmBackToLibrarySearchButtonAfter', {
+/* app.component('prmBackToLibrarySearchButtonAfter', {
   template: '<br><div id="covid-19"><p>Please <a href="https://survey.alchemer.com/s3/6948872/OSU-Online-Resources-Survey-2022-static">help us learn about your library usage</a> by taking a brief survey. All responses are anonymous.</p></div><br>',
   scope: {},
   bindings: { parentCtrl: '<' }
-});*/
+}); */
 
 /* OADOI find open access articles */
 app.constant('oadoiOptions', {
@@ -208,7 +208,7 @@ angular.module('oadoi', []).component('prmFullViewServiceContainerAfter', {
       var obj = $scope.$ctrl.parentCtrl.item.pnx.addata;
       var debug = oadoiOptions.debug;
       if (debug) {console.log($scope.$ctrl.parentCtrl.item.pnx.addata);}
-      
+
       // Not add && obj.hasOwnProperty("oa") to include Unpaywall OA link for as many articles, it could cause oalink is null for some
       if (obj.hasOwnProperty("doi")) {
         var doi = obj.doi[0];
@@ -293,7 +293,7 @@ angular
           }
 
           // if there's a doi and it's not already open access, ask the oadoi.org for an OA link
-          /* not use this.doi && !this.is_oa because articles with is_oa is true can require patrons sign in */ 
+          /* not use this.doi && !this.is_oa because articles with is_oa is true can require patrons sign in */
           if(self.doi){
             $http.get("https://api.oadoi.org/v2/"+self.doi+"?email="+oadoiOptions.email)
               .then(function(response){
@@ -312,10 +312,10 @@ angular
         }
       }
     },
-    // 
+    //
     /*  Use oadoi-result other than oadoi-results because that's the same as the component you added within prmSearchResultAvailabilityLineAfter
       The repetition will result in Angular JS putting more <oadoi-results> copies inside <oadoi-results> on loop instead of printing your Unpaywall link
-    */  
+    */
     template: `
     <oadoi-result ng-if="$ctrl.show">
       <div layout="flex" ng-if="$ctrl.best_oa_link" class="layout-row" style="margin-top: 5px;">
