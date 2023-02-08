@@ -46,7 +46,7 @@
     "prompt": "1.0.0",
     "protractor": "5.0.0",
     "protractor-image-comparison": "1.2.3",
-    "request": "2.72.0",
+    "request": "2.88.2",
     "require-dir": "0.3.2",
     "run-sequence": "1.2.1",
     "shelljs": "0.8.5",
