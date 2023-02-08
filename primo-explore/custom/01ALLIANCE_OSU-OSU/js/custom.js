@@ -327,20 +327,26 @@ angular
     </oadoi-result>`,
   });
 
-  /* Based on the HathiTrust availabilty developed by the Orbis Cascade Alliance's PCSG
-    https://www.orbiscascade.org/programs/systems/pcsg/primo-toolkit/hathitrust-availability/
-  */
-  app.component('prmSearchResultAvailabilityLineAfter', { template: '<hathi-trust-availability></hathi-trust-availability><oadoi-results></oadoi-results>' });
-  app.value('hathiTrustAvailabilityOptions', {
-    msg: 'Check for Full Text Availability at HathiTrust',
-    hideOnline: false,
-    hideIfJournal: true,
-    ignoreCopyright: false,
-    entityId: 'https://login.oregonstate.edu/idp/shibboleth',
-    excludeNotLocal: true
-   });
+/* Based on the HathiTrust availabilty developed by the Orbis Cascade Alliance's PCSG
+  https://www.orbiscascade.org/programs/systems/pcsg/primo-toolkit/hathitrust-availability/
+*/
+app.component('prmSearchResultAvailabilityLineAfter', { template: '<hathi-trust-availability></hathi-trust-availability><oadoi-results></oadoi-results>' });
+app.value('hathiTrustAvailabilityOptions', {
+  msg: 'Check for Full Text Availability at HathiTrust',
+  hideOnline: false,
+  hideIfJournal: true,
+  ignoreCopyright: false,
+  entityId: 'https://login.oregonstate.edu/idp/shibboleth',
+  excludeNotLocal: true
+ });
+
+ /* Hide 856 links */
+ app.value('linksToKeep', [
+   "Link to Archives West Finding Aid"
+ ]);
 
 ga('create', 'UA-35760875-20');
 ga('send', 'pageview');
 ga('set', 'anonymizeIp', true);
+
 })();
