@@ -148,6 +148,9 @@ app.controller('SearchBarAfterController', ['angularLoad', function (angularLoad
         (i[r].q = i[r].q || []).push(arguments);
     }, i[r].l = 1 * new Date();a = s.createElement(o), m = s.getElementsByTagName(o)[0];a.async = 1;a.src = g;m.parentNode.insertBefore(a, m);
 })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+ga('create', 'UA-35760875-20');
+ga('send', 'pageview');
+ga('set', 'anonymizeIp', true);
 
 /* Google Tag Manager */
 const gtmId = 'GTM-MWMMS9V'
@@ -345,8 +348,59 @@ app.value('hathiTrustAvailabilityOptions', {
    "Link to Archives West Finding Aid"
  ]);
 
-ga('create', 'UA-35760875-20');
-ga('send', 'pageview');
-ga('set', 'anonymizeIp', true);
+ /** Third Iron **/
+ // Begin BrowZine - Primo Integration...
+  window.browzine = {
 
+    api: "https://public-api.thirdiron.com/public/v1/libraries/135",
+    apiKey: "d7d981b8-2032-4b3d-b7f7-8e9b8dc69f30",
+
+    journalCoverImagesEnabled: true,
+
+    journalBrowZineWebLinkTextEnabled: true,
+    journalBrowZineWebLinkText: "View Journal Contents",
+
+    articleBrowZineWebLinkTextEnabled: false,
+    articleBrowZineWebLinkText: "View Issue Contents",
+
+    articlePDFDownloadLinkEnabled: true,
+    articlePDFDownloadLinkText: "Download PDF",
+
+    articleLinkEnabled: true,
+    articleLinkText: "Read Article",
+
+    printRecordsIntegrationEnabled: true,
+    showFormatChoice: false,
+    showLinkResolverLink: true,
+    enableLinkOptimizer: true,
+
+    articleRetractionWatchEnabled: true,
+    articleRetractionWatchText: "Retracted Article",
+
+    unpaywallEmailAddressKey: "library.1search@oregonstate.edu",
+    articlePDFDownloadViaUnpaywallEnabled: true,
+    articlePDFDownloadViaUnpaywallText: "Download PDF (via Unpaywall)",
+    articleLinkViaUnpaywallEnabled: true,
+    articleLinkViaUnpaywallText: "Read Article (via Unpaywall)",
+    articleAcceptedManuscriptPDFViaUnpaywallEnabled: true,
+    articleAcceptedManuscriptPDFViaUnpaywallText: "Download PDF (Accepted Manuscript via Unpaywall)",
+    articleAcceptedManuscriptArticleLinkViaUnpaywallEnabled: true,
+    articleAcceptedManuscriptArticleLinkViaUnpaywallText: "Read Article (Accepted Manuscript via Unpaywall)",
+  };
+
+  browzine.script = document.createElement("script");
+  browzine.script.src = "https://s3.amazonaws.com/browzine-adapters/primo/browzine-primo-adapter.js";
+  document.head.appendChild(browzine.script);
+
+  app.controller('prmSearchResultAvailabilityLineAfterController', function($scope) {
+    window.browzine.primo.searchResult($scope);
+  });
+
+  // Code has been rewritten to include both HathiTrust and LibKey
+  app.component('prmSearchResultAvailabilityLineAfter', {
+    bindings: { parentCtrl: '<' },
+    controller: 'prmSearchResultAvailabilityLineAfterController',
+    template: '<hathi-trust-availability></hathi-trust-availability><oadoi-results></oadoi-results>'
+  });
+// ... End BrowZine - Primo Integration
 })();
