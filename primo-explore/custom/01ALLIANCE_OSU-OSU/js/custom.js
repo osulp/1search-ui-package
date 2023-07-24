@@ -332,8 +332,8 @@ angular
 
 /* Based on the HathiTrust availabilty developed by the Orbis Cascade Alliance's PCSG
   https://www.orbiscascade.org/programs/systems/pcsg/primo-toolkit/hathitrust-availability/
+  The code has been modified to use both the LibKey and Hathitrust APIs
 */
-app.component('prmSearchResultAvailabilityLineAfter', { template: '<hathi-trust-availability></hathi-trust-availability><oadoi-results></oadoi-results>' });
 app.value('hathiTrustAvailabilityOptions', {
   msg: 'Check for Full Text Availability at HathiTrust',
   hideOnline: false,
@@ -404,3 +404,4 @@ app.value('hathiTrustAvailabilityOptions', {
   });
 // ... End BrowZine - Primo Integration
 })();
+
