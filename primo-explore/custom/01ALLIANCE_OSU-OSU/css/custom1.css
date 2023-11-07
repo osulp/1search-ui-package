@@ -264,7 +264,7 @@ span[data-field-selector="creationdate"]::before { content: "Publication date: "
 
 #covid-19 h2 {
   font-weight: bold;
-} 
+}
 
 #covid-19 a {
     color: #00859B;
@@ -355,12 +355,34 @@ md-dialog.light-on-dark-dialog md-list md-list-item.list-login .md-button:hover:
 span.umnHathiTrustLink {
     margin-left: -5px;
 }
-  
+
 span.umnHathiTrustLink md-icon svg {
     height: 1.2em;
     filter: grayscale(100%);
 }
-  
+
 span.umnHathiTrustLink:hover md-icon svg {
     filter: grayscale(0%);
+}
+
+/* Hide 856 links
+#links { display: none; } */
+
+/*  Change default color font to black in several spaces: top bar, menu links, login help text */
+prm-topbar .md-button:not(.close-btn-favorits-warning-message):not(.md-icon-button) {
+  color: black;
+}
+
+prm-main-menu[menu-type=full] .md-button .md-headline, prm-main-menu[menu-type=full] .overlay-menu-item .md-headline {
+    font-weight: 600;
+    font-size: 1.3em;
+    color: black;
+}
+
+.bar prm-authentication .light-on-dark-dialog .md-button, .light-on-dark-dialog .bar prm-authentication .md-button, .light-on-dark-dialog .md-button.button-as-link {
+    color: black;
+}
+
+.md-button.arrow-link-button md-dialog.light-on-dark-dialog .button-content, md-dialog.light-on-dark-dialog .md-button.arrow-link-button .button-content, md-dialog.light-on-dark-dialog a {
+    color: black;
 }
