@@ -1,5 +1,6 @@
 (function(){
 "use strict";
+'use strict';
 
 /**********************************************************************************************************************/
 /* Use the below line to bootstrap the module */
@@ -13,6 +14,21 @@
 /**********************************************************************************************************************/
 
 var app = angular.module('viewCustom', ['angularLoad', 'reportProblem', 'externalSearch', 'hathiTrustAvailability', 'availabilityCounts']);
+
+var LocalViewID;
+var LocalViewPath;
+
+var curURL = new URL(window.location.href);
+var vid = curURL.searchParams.get('vid');
+if (vid != '') {
+  LocalViewID = vid;
+  LocalViewPath = '/discovery/custom/' + vid.replace(':', '-');
+  console.log('View variables: ' + LocalViewID + ' and ' + LocalViewPath);
+} else {
+  LocalViewID = '01ALLIANCE_OSU:OSU';
+  LocalViewPath = '/discovery/custom/01ALLIANCE_OSU-OSU';
+  console.log('Warning: unable to deduce view variables; defaulting to ' + LocalViewID + ' and ' + LocalViewPath);
+}
 
 /* Add Google Scholar and Worldcat external search in facet pane */
 /* PCSG External Search -- https://github.com/alliance-pcsg/primo-explore-external-search */
@@ -56,7 +72,7 @@ app.value('externalSearchOptions', {
   { // Google Scholar
     "name": "Google Scholar",
     "url": "https://scholar.google.com/scholar?q=",
-    "img": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Google_%22G%22_Logo.svg/200px-Google_%22G%22_Logo.svg.png",
+    "img": LocalViewPath + "/img/google-logo.png",
     "alt": "Google Scholar Logo",
     mapping: function mapping(queries, filters) {
       try {
@@ -404,4 +420,3 @@ app.value('hathiTrustAvailabilityOptions', {
   });
 // ... End BrowZine - Primo Integration
 })();
-
