@@ -20,7 +20,11 @@ var LocalViewPath;
 
 var curURL = new URL(window.location.href);
 var vid = curURL.searchParams.get('vid');
-if (vid != '') {
+if (vid == null) {
+  LocalViewID = '01ALLIANCE_OSU:OSU';
+  LocalViewPath = '/discovery/custom/01ALLIANCE_OSU-OSU';
+  console.log('Warning: vid is null; defaulting to ' + LocalViewID + ' and ' + LocalViewPath);
+} else if (vid != '') {
   LocalViewID = vid;
   LocalViewPath = '/discovery/custom/' + vid.replace(':', '-');
   console.log('View variables: ' + LocalViewID + ' and ' + LocalViewPath);
