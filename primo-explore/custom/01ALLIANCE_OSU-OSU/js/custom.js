@@ -365,7 +365,7 @@ app.value('hathiTrustAvailabilityOptions', {
 
  /* Hide 856 links */
  app.value('linksToKeep', [
-   "Link to Archives West Finding Aid"
+   "Connect to the online finding aid for the collection."
  ]);
 
  /** Third Iron **/
