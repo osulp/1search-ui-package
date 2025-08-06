@@ -3,15 +3,17 @@ body { font-family: Arial, sans-serif !important; font-size: 11pt !important; }
 
 prm-main-menu { font-size: 14pt; }
 
-prm-topbar .prm-primary-bg.prm-hue1, prm-browse-search-bar.prm-hue1, prm-journals-search-bar.prm-hue1, prm-search-bar.prm-hue1, prm-spinner.prm-hue1.overlay-cover.light-on-dark::after, prm-tags-search-bar.prm-hue1, prm-topbar .top-nav-bar, .prm-secondary-color, prm-topbar .top-nav-bar, html#primoExploreRoot body primo-explore.__lgPlus.__gt-xs.__gt-sm.__gt-md div prm-explore-main div.header.topbar-wrapper.relative-position.layout-column prm-topbar div.top-nav-bar.layout-row prm-user-area md-fab-toolbar.hide-xs._md-animations-ready.md-fab-toolbar.md-left.md-is-open div._md-fab-toolbar-wrapper div._md-fab-toolbar-content md-fab-trigger.align-with-text.show-user-info { background-color: #dc4405; }
+/* Updated OSU brand colors for topbar - using white background */
+prm-topbar .prm-primary-bg.prm-hue1, prm-browse-search-bar.prm-hue1, prm-journals-search-bar.prm-hue1, prm-search-bar.prm-hue1, prm-spinner.prm-hue1.overlay-cover.light-on-dark::after, prm-tags-search-bar.prm-hue1, prm-topbar .top-nav-bar, .prm-secondary-color, prm-topbar .top-nav-bar, html#primoExploreRoot body primo-explore.__lgPlus.__gt-xs.__gt-sm.__gt-md div prm-explore-main div.header.topbar-wrapper.relative-position.layout-column prm-topbar div.top-nav-bar.layout-row prm-user-area md-fab-toolbar.hide-xs._md-animations-ready.md-fab-toolbar.md-left.md-is-open div._md-fab-toolbar-wrapper div._md-fab-toolbar-content md-fab-trigger.align-with-text.show-user-info { background-color: white; }
 
-prm-topbar .md-toolbar-tools { background-color: #dc4405; }
+prm-topbar .md-toolbar-tools { background-color: white; }
 
 prm-topbar .isDeposit, prm-topbar .isServicePage, prm-topbar .isSummonOverAlma {
    display: inline;
 }
 
-div.md-fab-action-item { font-weight: bold; color: white; }
+/* Updated to black text for better contrast on orange background */
+div.md-fab-action-item { font-weight: bold; color: black; }
 
 .prm-primary-bg, prm-browse-search-bar, prm-journals-search-bar, prm-search-bar, prm-spinner.overlay-cover.light-on-dark::after, prm-tags-search-bar { background-color: #000; }
 
@@ -27,9 +29,15 @@ prm-atoz-search-bar { background-color: black !important; }
 
 .switch-to-advanced, button.switch-to-simple:nth-child(1) { font-size: 110%; /*font-weight: bold;*/ }
 
-button.user-menu-button:nth-child(2) > div:nth-child(1) > span:nth-child(1), #main\ menu a { color: white; }
+/* Updated to black text for better contrast on orange background */
+button.user-menu-button:nth-child(2) > div:nth-child(1) > span:nth-child(1), #main\ menu a { color: black; }
 
 prm-logo .product-logo { padding: 0; }
+
+/* Replace logo with library-logo-red.png */
+prm-logo .product-logo img {
+    content: url('../img/library-logo-red.png') !important;
+}
 
 md-tab-item.md-tab:nth-child(3) { display: none; }
 
@@ -39,6 +47,19 @@ span[translate="mainmenu.label.interlibrary_loan"] { max-width: none; }
 
 button.user-menu-button:nth-child(2) > div:nth-child(1) > span:nth-child(1) {font-size: 110%; }
 
+/* QR and My favorites buttons - set to black background with white text */
+prm-topbar .md-button[aria-label="qr"], 
+prm-topbar .md-button[aria-label="Go to my favorites"] {
+    color: black !important;
+    background-color: white !important;
+}
+
+prm-topbar .md-button[aria-label="qr"]:hover, 
+prm-topbar .md-button[aria-label="Go to my favorites"]:hover {
+    background-color: #dc4405 !important;
+}
+
+/* Updated live chat button to orange color with black text */
 div.chat {
     text-decoration: none;
     padding: .5em;
@@ -46,7 +67,8 @@ div.chat {
     display: inline-block;
     font-size: 110%;
     border-radius: 8px !important;
-    border: 2px solid #ffffff !important;
+    border: 2px solid #dc4405 !important;
+    background-color: #dc4405 !important;
     margin: 0 .5em;
 }
 
