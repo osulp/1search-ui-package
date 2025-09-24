@@ -44,7 +44,7 @@
     "merge-stream": "1.0.0",
     "minimist": "1.2.6",
     "prompt": "1.0.0",
-    "protractor": "5.0.0",
+    "protractor": "6.0.0",
     "protractor-image-comparison": "1.2.3",
     "request": "2.88.2",
     "require-dir": "0.3.2",
