@@ -51,7 +51,7 @@
     "run-sequence": "1.2.1",
     "shelljs": "0.8.5",
     "stream-to-promise": "^2.2.0",
-    "tar-fs": "1.16.2",
+    "tar-fs": "1.16.6",
     "vinyl-buffer": "1.0.0",
     "vinyl-source-stream": "1.1.0"
   },
