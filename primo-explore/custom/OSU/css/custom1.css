@@ -3,15 +3,17 @@ body { font-family: Arial, sans-serif !important; font-size: 11pt !important; }
 
 prm-main-menu { font-size: 14pt; }
 
-prm-topbar .prm-primary-bg.prm-hue1, prm-browse-search-bar.prm-hue1, prm-journals-search-bar.prm-hue1, prm-search-bar.prm-hue1, prm-spinner.prm-hue1.overlay-cover.light-on-dark::after, prm-tags-search-bar.prm-hue1, prm-topbar .top-nav-bar, .prm-secondary-color, prm-topbar .top-nav-bar, html#primoExploreRoot body primo-explore.__lgPlus.__gt-xs.__gt-sm.__gt-md div prm-explore-main div.header.topbar-wrapper.relative-position.layout-column prm-topbar div.top-nav-bar.layout-row prm-user-area md-fab-toolbar.hide-xs._md-animations-ready.md-fab-toolbar.md-left.md-is-open div._md-fab-toolbar-wrapper div._md-fab-toolbar-content md-fab-trigger.align-with-text.show-user-info { background-color: #dc4405; }
+/* Updated OSU brand colors for topbar - using white background */
+prm-topbar .prm-primary-bg.prm-hue1, prm-browse-search-bar.prm-hue1, prm-journals-search-bar.prm-hue1, prm-search-bar.prm-hue1, prm-spinner.prm-hue1.overlay-cover.light-on-dark::after, prm-tags-search-bar.prm-hue1, prm-topbar .top-nav-bar, .prm-secondary-color, prm-topbar .top-nav-bar, html#primoExploreRoot body primo-explore.__lgPlus.__gt-xs.__gt-sm.__gt-md div prm-explore-main div.header.topbar-wrapper.relative-position.layout-column prm-topbar div.top-nav-bar.layout-row prm-user-area md-fab-toolbar.hide-xs._md-animations-ready.md-fab-toolbar.md-left.md-is-open div._md-fab-toolbar-wrapper div._md-fab-toolbar-content md-fab-trigger.align-with-text.show-user-info { background-color: white; }
 
-prm-topbar .md-toolbar-tools { background-color: #dc4405; }
+prm-topbar .md-toolbar-tools { background-color: white; }
 
 prm-topbar .isDeposit, prm-topbar .isServicePage, prm-topbar .isSummonOverAlma {
    display: inline;
 }
 
-div.md-fab-action-item { font-weight: bold; color: white; }
+/* Updated to black text for better contrast on orange background */
+div.md-fab-action-item { font-weight: bold; color: black; }
 
 .prm-primary-bg, prm-browse-search-bar, prm-journals-search-bar, prm-search-bar, prm-spinner.overlay-cover.light-on-dark::after, prm-tags-search-bar { background-color: #000; }
 
@@ -27,9 +29,15 @@ prm-atoz-search-bar { background-color: black !important; }
 
 .switch-to-advanced, button.switch-to-simple:nth-child(1) { font-size: 110%; /*font-weight: bold;*/ }
 
-button.user-menu-button:nth-child(2) > div:nth-child(1) > span:nth-child(1), #main\ menu a { color: white; }
+/* Updated to black text for better contrast on orange background */
+button.user-menu-button:nth-child(2) > div:nth-child(1) > span:nth-child(1), #main\ menu a { color: black; }
 
 prm-logo .product-logo { padding: 0; }
+
+/* Replace logo with library-logo-red.png */
+prm-logo .product-logo img {
+    content: url('../img/library-logo-red.png') !important;
+}
 
 md-tab-item.md-tab:nth-child(3) { display: none; }
 
@@ -39,6 +47,19 @@ span[translate="mainmenu.label.interlibrary_loan"] { max-width: none; }
 
 button.user-menu-button:nth-child(2) > div:nth-child(1) > span:nth-child(1) {font-size: 110%; }
 
+/* QR and My favorites buttons - set to black background with white text */
+prm-topbar .md-button[aria-label="qr"], 
+prm-topbar .md-button[aria-label="Go to my favorites"] {
+    color: black !important;
+    background-color: white !important;
+}
+
+prm-topbar .md-button[aria-label="qr"]:hover, 
+prm-topbar .md-button[aria-label="Go to my favorites"]:hover {
+    background-color: #dc4405 !important;
+}
+
+/* Updated live chat button to orange color with black text */
 div.chat {
     text-decoration: none;
     padding: .5em;
@@ -46,7 +67,8 @@ div.chat {
     display: inline-block;
     font-size: 110%;
     border-radius: 8px !important;
-    border: 2px solid #ffffff !important;
+    border: 2px solid #dc4405 !important;
+    background-color: #dc4405 !important;
     margin: 0 .5em;
 }
 
@@ -142,7 +164,9 @@ display: none;
 }
 
 /* remove the Summit Institution section - go live March 2020; restore in September 2021
-prm-alma-more-inst{display:none!important;} */
+    activate to hide Summit with Rapido 
+    prm-alma-more-inst { display: none !important; } */
+prm-alma-other-members { display: none !important; }
 
 /* Hide globe icon in Additional Main Menu options overlay */
 md-icon[aria-label="icon-earth"] {
@@ -249,7 +273,8 @@ span[data-field-selector="creationdate"]::before { content: "Publication date: "
 /* End Primo media queries */
 
 /* Start COVID19 Banner */
-/* Summit banner, which restored in September 2021
+/* Summit banner, which restored in September 2021 */
+/* Use for survey link, 2022 */
 #covid-19 {
   margin: 16px;
   padding: 8px;
@@ -263,7 +288,11 @@ span[data-field-selector="creationdate"]::before { content: "Publication date: "
 
 #covid-19 h2 {
   font-weight: bold;
-} */
+}
+
+#covid-19 a {
+    color: #00859B;
+}
 /* End COVID19 Banner */
 
 /* Start Customization to "Sign In" screen accessed from within Primo - borrowed from U Portland, added 8-25-2020 */
@@ -285,7 +314,7 @@ md-dialog.light-on-dark-dialog {
     border-radius: 30px;
 }
 
-md-dialog. md-headline light-text .h2 {
+md-dialog.md-headline light-text .h2 {
 color: #000;
 }
 
@@ -350,12 +379,64 @@ md-dialog.light-on-dark-dialog md-list md-list-item.list-login .md-button:hover:
 span.umnHathiTrustLink {
     margin-left: -5px;
 }
-  
+
 span.umnHathiTrustLink md-icon svg {
     height: 1.2em;
     filter: grayscale(100%);
 }
-  
+
 span.umnHathiTrustLink:hover md-icon svg {
     filter: grayscale(0%);
 }
+/* End HathiTrust */
+
+/* Hide 856 links
+#links { display: none; } */
+
+/*  Change default color font to black in several spaces: top bar, menu links, login help text */
+prm-topbar .md-button:not(.close-btn-favorits-warning-message):not(.md-icon-button) {
+  color: black;
+}
+
+prm-main-menu[menu-type=full] .md-button .md-headline, prm-main-menu[menu-type=full] .overlay-menu-item .md-headline {
+    font-weight: 600;
+    font-size: 1.3em;
+    color: black;
+}
+
+.bar prm-authentication .light-on-dark-dialog .md-button, .light-on-dark-dialog .bar prm-authentication .md-button, .light-on-dark-dialog .md-button.button-as-link {
+    color: black;
+}
+
+.md-button.arrow-link-button md-dialog.light-on-dark-dialog .button-content, md-dialog.light-on-dark-dialog .md-button.arrow-link-button .button-content, md-dialog.light-on-dark-dialog a {
+    color: black;
+}
+/*  End Change default color font to black in several spaces: top bar, menu links, login help text */
+
+/* Moving the "Send to" section below the "Get It" section in displayed item records. Re-order the main content containers */
+.full-view-inner-container {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Moving the "Send to" section below the "Get It" section in displayed item records. Assign numeric order: 
+   0 = First, 1 = Second, etc. */
+#getit_link1_0 { order: 1; }   /* View It / Get It */
+#action_list { order: 2; }     /* Send To (Actions) */
+#details { order: 3; }         /* Details */
+#links { order: 4; }           /* Links */
+#virtualBrowse { order: 5; }    /* Virtual Browse */
+
+/* Moving the "Send to" section below the "Get It" section in displayed item records. Ensure the sidebar container supports reordering */
+.full-view-navigation {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Moving the "Send to" section below the "Get It" section in displayed item records. Assign the visual order for the sidebar links */
+[aria-label="View Online"] { order: 1 !important; }
+[aria-label="Get It"] { order: 2 !important; }
+[aria-label="Send to"] { order: 3 !important; }
+[aria-label="Details"] { order: 4 !important; }
+[aria-label="Links"] { order: 5 !important; }
+[aria-label="Virtual Browse"] { order: 6 !important; }
