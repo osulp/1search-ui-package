@@ -163,8 +163,8 @@ prm-change-lang {
 display: none;
 }
 
-/* remove the Summit Institution section - go live March 2020; restore in September 2021
-prm-alma-more-inst{display:none!important;} */
+/* remove the Summit Institution section - go live March 2020; restore in September 2021 */
+/* prm-alma-other-members { display: none !important; } */
 
 /* Hide globe icon in Additional Main Menu options overlay */
 md-icon[aria-label="icon-earth"] {
@@ -386,6 +386,7 @@ span.umnHathiTrustLink md-icon svg {
 span.umnHathiTrustLink:hover md-icon svg {
     filter: grayscale(0%);
 }
+/* End HathiTrust */
 
 /* Hide 856 links
 #links { display: none; } */
@@ -408,3 +409,32 @@ prm-main-menu[menu-type=full] .md-button .md-headline, prm-main-menu[menu-type=f
 .md-button.arrow-link-button md-dialog.light-on-dark-dialog .button-content, md-dialog.light-on-dark-dialog .md-button.arrow-link-button .button-content, md-dialog.light-on-dark-dialog a {
     color: black;
 }
+/*  End Change default color font to black in several spaces: top bar, menu links, login help text */
+
+/* Moving the "Send to" section below the "Get It" section in displayed item records. Re-order the main content containers */
+.full-view-inner-container {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Moving the "Send to" section below the "Get It" section in displayed item records. Assign numeric order: 
+   0 = First, 1 = Second, etc. */
+#getit_link1_0 { order: 1; }   /* View It / Get It */
+#action_list { order: 2; }     /* Send To (Actions) */
+#details { order: 3; }         /* Details */
+#links { order: 4; }           /* Links */
+#virtualBrowse { order: 5; }    /* Virtual Browse */
+
+/* Moving the "Send to" section below the "Get It" section in displayed item records. Ensure the sidebar container supports reordering */
+.full-view-navigation {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Moving the "Send to" section below the "Get It" section in displayed item records. Assign the visual order for the sidebar links */
+[aria-label="View Online"] { order: 1 !important; }
+[aria-label="Get It"] { order: 2 !important; }
+[aria-label="Send to"] { order: 3 !important; }
+[aria-label="Details"] { order: 4 !important; }
+[aria-label="Links"] { order: 5 !important; }
+[aria-label="Virtual Browse"] { order: 6 !important; }
