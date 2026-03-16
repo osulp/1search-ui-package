@@ -397,7 +397,7 @@ app.value('hathiTrustAvailabilityOptions', {
     articleRetractionWatchEnabled: true,
     articleRetractionWatchText: "Retracted Article",
 
-    unpaywallEmailAddressKey: "library.1search@oregonstate.edu",
+    /** unpaywallEmailAddressKey: "library.1search@oregonstate.edu",
     articlePDFDownloadViaUnpaywallEnabled: true,
     articlePDFDownloadViaUnpaywallText: "Download PDF (via Unpaywall)",
     articleLinkViaUnpaywallEnabled: true,
@@ -405,7 +405,7 @@ app.value('hathiTrustAvailabilityOptions', {
     articleAcceptedManuscriptPDFViaUnpaywallEnabled: true,
     articleAcceptedManuscriptPDFViaUnpaywallText: "Download PDF (Accepted Manuscript via Unpaywall)",
     articleAcceptedManuscriptArticleLinkViaUnpaywallEnabled: true,
-    articleAcceptedManuscriptArticleLinkViaUnpaywallText: "Read Article (Accepted Manuscript via Unpaywall)",
+    articleAcceptedManuscriptArticleLinkViaUnpaywallText: "Read Article (Accepted Manuscript via Unpaywall)", */
   };
 
   browzine.script = document.createElement("script");
