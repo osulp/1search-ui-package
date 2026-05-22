@@ -207,6 +207,12 @@ app.component('prmBackToLibrarySearchButtonAfter', {
   scope: {},
   bindings: { parentCtrl: '<' }
 }); */
+/* Banner for article not found, added in May 2026 */
+app.component('prmBackToLibrarySearchButtonAfter', {
+  template: '<br><div id="covid-19"><p>Cannot find articles? Please click <a href="https://library.oregonstate.edu/news/problem-finding-articles-1search">here</a> for details.</p></div><br>',
+  scope: {},
+  bindings: { parentCtrl: '<' }
+}); 
 
 /* OADOI find open access articles */
 app.constant('oadoiOptions', {
